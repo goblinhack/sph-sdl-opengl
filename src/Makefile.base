@@ -1,0 +1,83 @@
+
+NAME=sph_sdl
+OBJDIR=.o
+
+GAME_OBJECTS=				\
+    $(OBJDIR)/ascii.o 			\
+    $(OBJDIR)/ascii_box.o 		\
+    $(OBJDIR)/color.o			\
+    $(OBJDIR)/dir.o			\
+    $(OBJDIR)/command.o 		\
+    $(OBJDIR)/console.o 		\
+    $(OBJDIR)/file.o 			\
+    $(OBJDIR)/file_read.o 		\
+    $(OBJDIR)/font.o 			\
+    $(OBJDIR)/game.o 			\
+    $(OBJDIR)/game_config_keyboard.o	\
+    $(OBJDIR)/game_display.o 		\
+    $(OBJDIR)/game_error.o 		\
+    $(OBJDIR)/game_fini.o 		\
+    $(OBJDIR)/game_init.o 		\
+    $(OBJDIR)/game_notice.o 		\
+    $(OBJDIR)/game_quit.o 		\
+    $(OBJDIR)/gfx.o			\
+    $(OBJDIR)/gl.o 			\
+    $(OBJDIR)/hexdump.o 		\
+    $(OBJDIR)/log.o 			\
+    $(OBJDIR)/main.o 			\
+    $(OBJDIR)/minilzo.o 		\
+    $(OBJDIR)/pcg_basic.o 		\
+    $(OBJDIR)/ptrcheck.o 		\
+    $(OBJDIR)/sdl.o 			\
+    $(OBJDIR)/slre.o 			\
+    $(OBJDIR)/sprintf.o 		\
+    $(OBJDIR)/stb_image.o 		\
+    $(OBJDIR)/string.o 			\
+    $(OBJDIR)/tex.o 			\
+    $(OBJDIR)/tile.o 			\
+    $(OBJDIR)/time.o 			\
+    $(OBJDIR)/token.o 			\
+    $(OBJDIR)/traceback.o 		\
+    $(OBJDIR)/ttf.o 			\
+    $(OBJDIR)/util.o 			\
+    $(OBJDIR)/wid.o 			\
+    $(OBJDIR)/wid_console.o 		\
+    $(OBJDIR)/wid_minicon.o 		\
+    $(OBJDIR)/wid_popup.o 		\
+    $(OBJDIR)/wid_test.o 		\
+    $(OBJDIR)/wid_text_box.o 		\
+    $(OBJDIR)/wid_tiles.o 		\
+
+#
+# compile
+#
+$(OBJDIR)/%.o: %.cpp
+	@echo $(CC) $(EXTRA_CFLAGS) $(CFLAGS) -c -o $@ $<
+	@$(CC) $(EXTRA_CFLAGS) $(CFLAGS) -c -o $@ $<
+
+#
+# link
+#
+TARGET_GAME=$(NAME)$(EXE)
+$(TARGET_GAME): $(GAME_OBJECTS)
+	$(CC) $(GAME_OBJECTS) $(LDLIBS) -o ../$(TARGET_GAME)
+
+#
+# To force clean and avoid "up to date" warning.
+#
+.PHONY: clean
+.PHONY: clobber
+
+clean:
+	rm -rf ../$(TARGET_GAME) ../stdout.txt ../stderr.txt
+	rm -rf $(GAME_OBJECTS) $(TARGET_GAME) stdout.txt stderr.txt
+
+clobber: clean
+	rm -rf $(OBJDIR)
+	mkdir -p $(OBJDIR)
+
+valgrind:
+	valgrind --gen-suppressions=all --leak-check=full --suppressions=valgrind.suppress --error-limit=no ../$(NAME)
+
+all: $(TARGET_GAME)
+	$(DSYM)
