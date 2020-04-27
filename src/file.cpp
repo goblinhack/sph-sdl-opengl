@@ -3,16 +3,13 @@
 // See the README file for license info.
 //
 
-#if defined(__linux__)
 #include <sys/errno.h>
-#endif
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
 
 #include "my_main.h"
-#include "my_file.h"
 
 unsigned char *file_read (const char *filename, int32_t *out_len)
 {_

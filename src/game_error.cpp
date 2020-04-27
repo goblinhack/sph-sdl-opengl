@@ -5,12 +5,8 @@
 
 #include <sstream>
 #include "minilzo.h"
-#include "my_main.h"
 #include "my_ascii.h"
-#include "my_wid_minicon.h"
-#include "my_wid_console.h"
 #include "my_wid_popup.h"
-#include "my_game_error.h"
 #include "my_traceback.h"
 
 static WidPopup *game_error_window;

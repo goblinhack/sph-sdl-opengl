@@ -1,0 +1,351 @@
+#!/bin/bash
+# 
+# Copyright (C) 2014 Neil McGill
+#
+# This game is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Library General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+#
+# This game is distributed in the hope that it will be fun,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Library General Public License for more details.
+#
+# You should have received a copy of the GNU Library General Public
+# License along with this game; if not, write to the Free
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+
+. ./scripts/common.sh
+
+case `uname` in
+    *MING*|*MSYS*)
+        for i in \
+            /mingw/bin/sdl2-config \
+            /mingw64/bin/sdl2-config
+        do
+            if [ -x $i ]
+            then
+                SDL2_CONFIG=$i
+                break
+            fi
+        done
+    ;;
+    *)
+        for i in \
+            /opt/local/bin/sdl2-config \
+            /usr/local/bin/sdl2-config \
+            /usr/bin/sdl2-config 
+        do
+            if [ -x $i ]
+            then
+                SDL2_CONFIG=$i
+                break
+            fi
+        done
+    ;;
+esac
+
+sdl_help()
+{
+    log_warn "Is SDL2 installed? (not SDL1) If not:"
+
+    case `uname` in
+    *MING*|*MSYS*)
+        log_warn "Installed already:"
+        pacman -Ss | grep '^mingw64/' | grep SDL2 | sed 's/^mingw64.//g' | grep installed
+        log_err "Cannot find SDL2"
+        exit 1
+        ;;
+
+    *Darwin*)
+        log_warn "Install MAC ports then install:"
+        log_warn "   sudo port install libsdl2"
+        ;;
+
+    *)
+        log_warn "  For ubuntu SDL2 do: "
+        log_warn "   sudo apt-get install libsdl2-dev"
+        ;;
+    esac
+}
+
+log_info "SDL2 config                : $SDL2_CONFIG"
+log_info "SDL2 version               : "`$SDL2_CONFIG --version`
+log_info "SDL2 include path          : $SDL2_INC_PATH"
+
+#
+# Gives warings at runtime on MACOS
+#
+SDL_LIBS=`$SDL2_CONFIG --libs`
+if [ $? -ne 0 ]
+then
+    log_err "Please install SDL2."
+    sdl_help
+    exit 1
+fi
+
+C_FLAGS=`$SDL2_CONFIG --cflags`
+if [ $? -ne 0 ]
+then
+    log_err "Please install SDL2."
+    sdl_help
+    exit 1
+fi
+
+log_info "SDL version                :" $($SDL2_CONFIG --version)
+
+#
+# -funwind-tables and -rdynamic for backtrace info on linux.
+# But it seemed to help little.
+#
+LDLIBS="$SDL_LIBS"
+#LDLIBS="$LDLIBS -lSDL2_mixer"
+#LDLIBS="$LDLIBS -lSDL2_ttf"
+
+#
+# Make the makefile
+#
+cd src
+
+rm -f Makefile
+cat Makefile.base | sed '/DO NOT DELETE/,$d' > Makefile.tmp
+mv Makefile.tmp Makefile
+
+case `uname` in
+    *MING*|*MSYS*)
+        ../makedepend *.cpp -p .o/ 2>/dev/null
+
+        if [ $? -ne 0 ]; then
+            ../third-party/makedepend *.cpp -p .o/ 2>/dev/null
+        fi
+        ;;
+    *)
+        makedepend *.cpp -p .o/ 2>/dev/null
+        ;;
+esac
+
+if [ $? -ne 0 ]; then
+
+    log_warn "Is makedepend installed? If not:"
+    log_warn "  For ubuntu do: sudo apt-get install xutils-dev"
+    log_warn "  For MAC    do: sudo port install makedepend"
+    log_warn "  For MingW  do: look in third-party for Win32 binary"
+
+    case `uname` in
+        *MING*|*MSYS*)
+            echo
+            log_warn "If you still can't find it, I have the source in third-party"
+            log_warn "  cd third-party"
+            log_warn "  tar xvf makedepend-1.0.5.tar.gz"
+            log_warn "  cd makedepend-1.0.5"
+            log_warn "  ./configure"
+            ;;
+    esac
+
+    log_warn "Hit enter to continue; I'll ignore this error."
+    log_warn "It's not essential. Rebuilds will be slower is all."
+    read dummy
+
+    makedepend *.cpp -p .o/ 2>/dev/null
+fi
+
+cd ..
+
+#
+# for backtraces, but it doesn't help much
+#
+case `uname` in
+    *MSYS*)
+        log_err "compile for ming64, not msys"
+        exit 1
+        ;;
+    *MING*)
+        PATH=/mingw64/bin:$PATH
+
+        EXE=".exe"
+        # gcc only
+        C_FLAGS="$C_FLAGS -mwin32 "
+        C_FLAGS+="$C_FLAGS -I/mingw64/x86_64-w64-mingw32/include "
+
+        #
+        # Does not seem to work
+        #
+        # https://stackoverflow.com/questions/156510/increase-stack-size-on-windows-gcc
+        # C_FLAGS+="$LDLIBS -Wl,--stack,128777216 "
+        #
+
+        LDLIBS="$LDLIBS -L/mingw64/x86_64-w64-mingw32/lib/"
+        LDLIBS=`echo $LDLIBS | sed -e 's/-lmingw32 //g'`
+        LDLIBS="$LDLIBS -funwind-tables"
+        #LDLIBS="$LDLIBS -static"
+        LDLIBS="$LDLIBS -static-libstdc++"
+        LDLIBS="$LDLIBS -static-libgcc"
+        LDLIBS="$LDLIBS -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic"
+        LDLIBS="$LDLIBS -lopengl32"
+        LDLIBS="$LDLIBS -lpthread"
+        LDLIBS="$LDLIBS /mingw64/lib/libSDL2_mixer.a"
+        LDLIBS="$LDLIBS /mingw64/lib/libSDL2_ttf.a"
+
+        #
+        # Except it does not work and does not generate pdb files for clang
+        #
+        #C_FLAGS+="-gcodeview"
+        #C_FLAGS=`echo $C_FLAGS | sed -e 's/-mwin32 //g'`
+        # And use this later
+        # echo "CC=clang++.exe # AUTOGEN" >> .Makefile
+
+        #
+        # For symbol decode StackTrace that doesn't really work without
+        # visual studio. sigh
+        #
+        LDLIBS="$LDLIBS -L/mingw64/lib/binutils -lbfd -lintl -ldbghelp -liberty -lz"
+        ;;
+    *Darwin*)
+        EXE=""
+        LDLIBS="$LDLIBS -funwind-tables"
+        LDLIBS="$LDLIBS -rdynamic"
+        LDLIBS="$LDLIBS -Wl,-framework,Opengl"
+        DSYM="dsymutil ../sph_sdl"
+        WERROR="-Werror"
+        COMPILER_WARN="-Wmissing-prototypes"
+        #C_FLAGS+="-ggdb -fsanitize=leak -fno-omit-frame-pointer -static-libstdc++ -static-libgcc "
+        #C_FLAGS+="-ggdb -fsanitize=address -fno-omit-frame-pointer"
+        #LDLIBS+=" -L/opt/local/lib/gcc6 -lasan"
+        ;;
+    *)
+        EXE=""
+        LDLIBS="$LDLIBS -funwind-tables"
+        LDLIBS="$LDLIBS -lGL"
+        #
+        # Better to leave off for production
+        #
+        WERROR="-Werror"
+        COMPILER_WARN="-Wmissing-prototypes"
+        ;;
+esac
+
+#
+# Better to leave off for production
+#
+#WERROR=""
+
+#LDLIBS="$LDLIBS -lpthread"
+
+cd src
+
+echo "COMPILER_FLAGS=$WERROR $C_FLAGS -g -ggdb3 -O3 # AUTOGEN" > .Makefile
+echo "    " >> .Makefile
+echo "CLANG_COMPILER_WARNINGS=-Wall $COMPILER_WARN -std=c++1z -stdlib=libc++ # AUTOGEN" >> .Makefile
+GCC_STACK_CHECK="-fstack-check -fstack-protector-all -D_FORTIFY_SOURCE=2"
+GCC_STACK_CHECK=
+
+# c++2a for bitfield initialization in classes
+echo "GCC_COMPILER_WARNINGS=-x c++ -Wall -std=c++2a -ffast-math $GCC_STACK_CHECK # AUTOGEN" >> .Makefile
+# std++17 is not yet supported on my mac, henze c++1z
+`g++ --version >/dev/null 2>/dev/null`
+if [ $? -eq 0 ]
+then
+    echo "COMPILER_WARNINGS=\$(CLANG_COMPILER_WARNINGS) # AUTOGEN" >> .Makefile
+    echo "COMPILER_WARNINGS=\$(GCC_COMPILER_WARNINGS) # AUTOGEN" >> .Makefile
+    echo "# CC=clang++ # AUTOGEN" >> .Makefile
+    echo "CC=g++ # AUTOGEN" >> .Makefile
+    # -mp- is the mac ports version
+    #echo "CC=/opt/local/bin/g++-mp-6 # AUTOGEN" >> .Makefile
+else
+    `clang++ --version >/dev/null 2>/dev/null`
+    if [ $? -eq 0 ]
+    then
+        echo "COMPILER_WARNINGS=\$(GCC_COMPILER_WARNINGS) # AUTOGEN" >> .Makefile
+        echo "COMPILER_WARNINGS=\$(CLANG_COMPILER_WARNINGS) # AUTOGEN" >> .Makefile
+        echo "CC=clang++ # AUTOGEN" >> .Makefile
+        echo "# CC=g++ # AUTOGEN" >> .Makefile
+    fi
+fi
+
+case `uname` in
+    *MING*)
+        echo "CC=/mingw64/bin/x86_64-w64-mingw32-g++.exe # AUTOGEN" >> .Makefile
+        #
+        # To resolve WinMain, add these at the end again
+        #
+        LDLIBS="$LDLIBS -lmingw32 -lSDL2main -lSDL2 -mwindows /mingw64/lib/libSDL2main.a -L/mingw64/lib -lSDL2main -lSDL2"
+        # clang
+    ;;
+esac
+
+echo "    " >> .Makefile
+echo "EXE=$EXE # AUTOGEN" >> .Makefile
+echo "DSYM=$DSYM # AUTOGEN" >> .Makefile
+echo "LDLIBS=$LDLIBS # AUTOGEN" >> .Makefile
+echo "CFLAGS=\$(COMPILER_FLAGS) \$(COMPILER_WARNINGS) # AUTOGEN" >> .Makefile
+
+cat Makefile | grep -v AUTOGEN | grep -v "^    $" >> .Makefile
+
+if [ -s .Makefile ]
+then
+    mv .Makefile Makefile
+    if [ ! -f Makefile ]
+    then
+        log_err "No makefile?!"
+        exit 1
+    fi
+else 
+    log_err "Makefile create fail?!"
+    exit 1
+fi
+
+log_info "Cleaning"
+make clobber | sed 's/^/  /g'
+
+CORES=""
+
+case `uname` in
+    *Darwin*)
+        CORES=`/usr/sbin/system_profiler -detailLevel full SPHardwareDataType  | grep Cores | sed 's/.*: //g'`
+    ;;
+
+    *inux*)
+        CORES=`cat /proc/cpuinfo | grep "cpu cores" | wc -l`
+    ;;
+    MSYS*)
+        CORES=`cat /proc/cpuinfo | grep "cpu cores" | wc -l`
+    ;;
+esac
+
+if [ "$CORES" != "" ]
+then
+    log_info "Compiling ($CORES cpus)"
+
+    CORES="-j $CORES"
+else
+    log_info "Compiling"
+fi
+
+echo $PATH
+make $CORES $* all
+
+if [ $? -eq 0 ]
+then
+    case `uname` in
+        *MING*)
+            log_info "Run:"
+            echo "  ./sph_sdl.exe"
+            ;;
+        *)
+            log_info "Run:"
+            echo "  ./sph_sdl"
+            ;;
+    esac
+
+    rm -f Makefile.bak
+else
+    cd ..
+    log_die "Build failed"
+    sdl_help
+    exit 1
+fi
+
+cd ..
+exit 0

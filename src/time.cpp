@@ -3,8 +3,6 @@
 // See the README file for license info.
 //
 
-#include "my_main.h"
-#include "my_string.h"
 #include "my_time.h"
 
 timestamp_t time_now;

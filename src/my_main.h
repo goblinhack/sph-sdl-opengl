@@ -437,31 +437,6 @@ void DYING(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
 #include "my_vector_bounds_check.h"
 
 //
-// Serialization support
-// https://github.com/goblinhack/simple-c-plus-plus-serializer
-//
-#include "c_plus_plus_serializer.h"
-
-// https://stackoverflow.com/questions/26948099/stdcopy-for-multidimensional-arrays
-#include <type_traits>
-
-template <typename T>
-size_t len(const T& a)
-{
-    return sizeof(T) / sizeof(typename std::remove_all_extents<T>::type);
-}
-
-template <typename T>
-typename std::remove_all_extents<T>::type* mbegin(T& arr) {
-    return reinterpret_cast<typename std::remove_all_extents<T>::type*>(&arr);
-}
-
-template <typename T>
-typename std::remove_all_extents<T>::type* mend(T& arr) {
-    return reinterpret_cast<typename std::remove_all_extents<T>::type*>(&arr)+len(arr);
-}
-
-//
 // Nested crash detection.
 //
 extern uint8_t croaked;
@@ -537,9 +512,6 @@ public:
 #else
     bool               gfx_inverted                 = false;
 #endif
-    bool               gfx_minimap                  = true;
-    bool               gfx_show_hidden              = false;
-    bool               gfx_lights                   = true;
     uint32_t           gfx_zoom                     = 4;
     bool               gfx_vsync_enable             = true;
     bool               debug_mode                   = false;

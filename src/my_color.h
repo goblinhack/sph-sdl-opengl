@@ -7,7 +7,6 @@
 #define _MY_MY_COLOR_H_
 
 #include <map>
-#include "c_plus_plus_serializer.h"
 
 template<class T> class my_acolor
 {
@@ -27,25 +26,6 @@ public:
     my_acolor (T r, T g, T b, T a) : r(r), g(g), b(b), a(a) { }
 
     my_acolor (const my_acolor &c) : r(c.r), g(c.g), b(c.b), a(c.a) { }
-
-    friend std::ostream& operator<<(std::ostream &out,
-                                    Bits<const my_acolor & > const my)
-    {
-        out << bits(my.t.r) << bits(my.t.g) << bits(my.t.b) << bits(my.t.a);
-        return (out);
-    }
-
-    friend std::istream& operator>>(std::istream &in, Bits<my_acolor &> my)
-    {
-        in >> bits(my.t.r) >> bits(my.t.g) >> bits(my.t.b) >> bits(my.t.a);
-        return (in);
-    }
-
-    friend std::ostream& operator << (std::ostream &out, const my_acolor &my)
-    {
-        out << "(" << my.r << ", " << my.g << ", " << my.b << ", " << my.a << ")";
-        return (out);
-    }
 
     void operator+= (my_acolor c)
     {

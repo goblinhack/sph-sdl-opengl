@@ -4,7 +4,6 @@
 //
 
 #include "my_main.h"
-#include "my_ptrcheck.h"
 #include "stdlib.h"
 #include <string.h>
 

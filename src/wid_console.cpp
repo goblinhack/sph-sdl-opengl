@@ -5,13 +5,6 @@
 
 #include <SDL.h>
 
-#include "my_main.h"
-#include "my_sdl.h"
-#include "my_slre.h"
-#include "my_wid_console.h"
-#include "my_command.h"
-#include "my_ttf.h"
-#include "my_string.h"
 #include "my_wid.h"
 #include "my_ascii.h"
 #include "my_string.h"
@@ -50,10 +43,6 @@ uint8_t wid_console_init (void)
 
     command_add(config_fps_counter_set, "set fps [01]", "enable frames per sec counter");
     command_add(config_gfx_inverted_set, "set gfx inverted [01]", "enable reverse colors");
-    command_add(config_gfx_minimap_set, "set gfx minimap [01]", "enable dungeon minimap");
-    command_add(config_gfx_show_hidden_set, "set gfx show hidden [01]", "enable map floors and walls only");
-    command_add(config_gfx_lights_set, "set gfx lights [01]", "enable map lights");
-    command_add(config_gfx_zoom_set, "set gfx zoom [0123456789]", "map zoom");
     command_add(config_gfx_vsync_enable, "set vsync [01]", "enable vertical sync enable");
     command_add(config_debug_mode, "set debug [01]", "enable debug mode");
     command_add(config_errored, "clear errored", "used to clear a previous error");

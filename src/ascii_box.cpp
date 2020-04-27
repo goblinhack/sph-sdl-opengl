@@ -3,7 +3,6 @@
 // See the README file for license info.
 //
 
-#include "my_sdl.h"
 #include "my_font.h"
 #include "my_ascii.h"
 #include <array>

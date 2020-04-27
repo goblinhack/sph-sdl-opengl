@@ -4,19 +4,10 @@
 //
 
 #include "my_main.h"
-#include "my_slre.h"
-#include "my_wid.h"
-#include "my_tex.h"
-#include "my_tile.h"
-#include "my_command.h"
 #include "my_time.h"
 #include "my_wid_console.h"
-#include "my_wid_minicon.h"
-#include "my_math.h"
-#include "my_wid_tiles.h"
 #include "my_sprintf.h"
 #include "my_ascii.h"
-#include "my_gl.h"
 #include <stdlib.h>
 #include <list>
 
@@ -3530,39 +3521,6 @@ static uint8_t wid_receive_unhandled_input (const SDL_KEYSYM *key)
     switch (key->mod) {
         case KMOD_LCTRL:
         case KMOD_RCTRL:
-            switch ((int32_t)key->sym) {
-                case '1':
-                    if (game && game->config.debug_mode) {
-                        MINICON("Show inverted toggle");
-                        CON("USERCFG: gfx show inverted toggle");
-                        config_gfx_inverted_toggle();
-                    }
-                    break;
-
-                case '2':
-                    if (game && game->config.debug_mode) {
-                        MINICON("Show lights toggle");
-                        CON("USERCFG: gfx show lights toggle");
-                        config_gfx_lights_toggle();
-                    }
-                    break;
-
-                case '3':
-                    if (game && game->config.debug_mode) {
-                        MINICON("Show hidden objects toggle");
-                        CON("USERCFG: gfx show hidden toggle");
-                        config_gfx_show_hidden_toggle();
-                    }
-                    break;
-
-                case 'r':
-                    MINICON("Creating a new dungeon");
-                    CON("USERCFG: reloading dungeon, destroy old");
-                    game->fini();
-                    game->init();
-                    CON("USERCFG: reloaded dungeon");
-                    break;
-            }
         default:
             switch ((int32_t)key->sym) {
                 case '\\':

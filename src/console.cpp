@@ -6,7 +6,6 @@
 #include "my_main.h"
 #include "my_console.h"
 #include "my_color.h"
-#include "my_string.h"
 
 static inline void term_puts_fg (unsigned char a)
 {_

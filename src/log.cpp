@@ -3,10 +3,8 @@
 // See the README file for license info.
 //
 
-#include "my_main.h"
 #include "my_time.h"
 #include "my_traceback.h"
-#include "my_wid.h"
 #include "my_wid_console.h"
 #include "my_wid_minicon.h"
 #include "my_console.h"

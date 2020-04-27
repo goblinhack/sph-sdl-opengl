@@ -22,7 +22,6 @@ GAME_OBJECTS=				\
     $(OBJDIR)/game_quit.o 		\
     $(OBJDIR)/gfx.o			\
     $(OBJDIR)/gl.o 			\
-    $(OBJDIR)/hexdump.o 		\
     $(OBJDIR)/log.o 			\
     $(OBJDIR)/main.o 			\
     $(OBJDIR)/minilzo.o 		\

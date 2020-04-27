@@ -3,16 +3,16 @@
 // See the README file for license info.
 //
 
-#include "my_gl.h"
-#include "my_wid.h"
 #include "my_ascii.h"
 #include "my_time.h"
 #include "my_wid_console.h"
 
+extern bool game_needs_restart;
+
 static int sdl_get_mouse(void);
 static void sdl_screenshot_(void);
 static int sdl_do_screenshot;
-extern bool game_needs_restart;
+static void config_gfx_update(void);
 
 int TILES_ACROSS;
 int TILES_DOWN;
@@ -324,7 +324,7 @@ uint8_t sdl_init (void)
             GL_ACCUM_BUFFER_BIT |
             GL_STENCIL_BUFFER_BIT);
 
-    config_gfx_zoom_update();
+    config_gfx_update();
 
     LOG("INIT: SDL_SetWindowTitle");
     SDL_SetWindowTitle(window, "sph_sdl");
@@ -915,163 +915,6 @@ uint8_t config_gfx_inverted_set (tokens_t *tokens, void *context)
 //
 // User has entered a command, run it
 //
-void config_gfx_minimap_toggle (void)
-{_
-    if (!game->config.gfx_minimap) {
-        game->config.gfx_minimap = true;
-        CON("gfx map enabled");
-    } else {
-        game->config.gfx_minimap = false;
-        CON("gfx map disabled");
-    }
-}
-
-//
-// User has entered a command, run it
-//
-uint8_t config_gfx_minimap_set (tokens_t *tokens, void *context)
-{_
-    char *s = tokens->args[3];
-
-    if (!s || (*s == '\0')) {
-        game->config.gfx_minimap = true;
-        CON("gfx map enabled (default)");
-    } else {
-        int val = strtol(s, 0, 10) ? 1 : 0;
-        game->config.gfx_minimap = val;
-        if (game->config.gfx_minimap) {
-            CON("gfx map enabled");
-        } else {
-            CON("gfx map disabled");
-        }
-    }
-
-    return (true);
-}
-
-//
-// User has entered a command, run it
-//
-void config_gfx_show_hidden_toggle (void)
-{_
-    if (!game->config.gfx_show_hidden) {
-        game->config.gfx_show_hidden = true;
-        CON("gfx show hidden enabled");
-    } else {
-        game->config.gfx_show_hidden = false;
-        CON("gfx show hidden disabled");
-    }
-}
-
-//
-// User has entered a command, run it
-//
-uint8_t config_gfx_show_hidden_set (tokens_t *tokens, void *context)
-{_
-    char *s = tokens->args[3];
-
-    if (!s || (*s == '\0')) {
-        game->config.gfx_show_hidden = true;
-        CON("gfx show hidden enabled (default)");
-    } else {
-        int val = strtol(s, 0, 10) ? 1 : 0;
-        game->config.gfx_show_hidden = val;
-        if (game->config.gfx_show_hidden) {
-            CON("gfx show hidden enabled");
-        } else {
-            CON("gfx show hidden disabled");
-        }
-    }
-
-    return (true);
-}
-
-//
-// User has entered a command, run it
-//
-void config_gfx_lights_toggle (void)
-{_
-    if (!game->config.gfx_lights) {
-        game->config.gfx_lights = true;
-        CON("gfx lights enabled");
-    } else {
-        game->config.gfx_lights = false;
-        CON("gfx lights disabled");
-    }
-}
-
-//
-// User has entered a command, run it
-//
-uint8_t config_gfx_lights_set (tokens_t *tokens, void *context)
-{_
-    char *s = tokens->args[3];
-
-    if (!s || (*s == '\0')) {
-        game->config.gfx_lights = true;
-        CON("gfx lights enabled (default)");
-    } else {
-        int val = strtol(s, 0, 10) ? 1 : 0;
-        game->config.gfx_lights = val;
-        if (game->config.gfx_lights) {
-            CON("gfx lights enabled");
-        } else {
-            CON("gfx lights disabled");
-        }
-    }
-
-    return (true);
-}
-
-//
-// User has entered a command, run it
-//
-void config_gfx_zoom_in (void)
-{_
-    game->config.gfx_zoom++;
-    if (game->config.gfx_zoom > 5) {
-        game->config.gfx_zoom = 5;
-    }
-    CON("USERCFG: gfx zoom set to %d", game->config.gfx_zoom);
-    config_gfx_zoom_update();
-}
-
-void config_gfx_zoom_out (void)
-{_
-    game->config.gfx_zoom--;
-    if (game->config.gfx_zoom < 1) {
-        game->config.gfx_zoom = 1;
-    }
-    CON("USERCFG: gfx zoom set to %d", game->config.gfx_zoom);
-    config_gfx_zoom_update();
-}
-
-//
-// User has entered a command, run it
-//
-uint8_t config_gfx_zoom_set (tokens_t *tokens, void *context)
-{_
-    char *s = tokens->args[3];
-
-    if (!s || (*s == '\0')) {
-        game->config.gfx_zoom = 1;
-        CON("USERCFG: gfx zoom enabled (default)");
-    } else {
-        int val = strtol(s, 0, 10);
-        game->config.gfx_zoom = val;
-        if (game->config.gfx_zoom < 1) {
-            game->config.gfx_zoom = 1;
-        }
-        CON("USERCFG: gfx zoom set to %d", val);
-    }
-    config_gfx_zoom_update();
-
-    return (true);
-}
-
-//
-// User has entered a command, run it
-//
 uint8_t config_gfx_vsync_enable (tokens_t *tokens, void *context)
 {_
     char *s = tokens->args[2];
@@ -1136,7 +979,7 @@ uint8_t config_errored (tokens_t *tokens, void *context)
 
 void config_update_all (void)
 {
-    config_gfx_zoom_update();
+    config_gfx_update();
     config_gfx_vsync_update();
 }
 
@@ -1275,25 +1118,6 @@ void sdl_loop (void)
         glBlendFunc(GL_ONE, GL_ZERO);
         blit_fbo_outer(FBO_MAP);
 
-        //
-        // Draw the map
-        //
-        if (game->config.gfx_minimap) {
-            float mx = 0.2;
-            float my = mx * game->config.video_w_h_ratio;
-            mx *= game->config.outer_pix_width;
-            my *= game->config.outer_pix_height;
-            glcolor(WHITE);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glPushMatrix();
-            glTranslatef(game->config.outer_pix_width - mx,
-                         game->config.outer_pix_height - my, 0);
-            blit_init();
-            blit(fbo_tex_id[FBO_MINIMAP], 0.0, 1.0, 1.0, 0.0, 0, my, mx, 0.0);
-            blit_flush();
-            glPopMatrix();
-        }
-
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         blit_fbo_outer(FBO_WID);
         blit_fbo_unbind();
@@ -1421,7 +1245,7 @@ void sdl_flush_display (void)
     SDL_GL_SwapWindow(window);
 }
 
-void config_gfx_zoom_update (void)
+void config_gfx_update (void)
 {
     if (!game->config.gfx_zoom) {
         game->config.gfx_zoom = 1;

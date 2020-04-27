@@ -18,7 +18,6 @@ public:
 #else
     bool               gfx_inverted                 = false;
 #endif
-    bool               gfx_minimap                  = true;
     bool               gfx_show_hidden              = false;
     bool               gfx_lights                   = true;
     uint32_t           gfx_zoom                     = 4;

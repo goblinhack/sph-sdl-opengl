@@ -13,10 +13,6 @@
 #include <time.h>
 #include <ctime>
 
-#include "my_main.h"
-#include "my_tex.h"
-#include "my_color.h"
-#include "my_sdl.h"
 #include "my_time.h"
 #include "my_tile.h"
 

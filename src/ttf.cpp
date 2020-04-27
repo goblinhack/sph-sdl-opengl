@@ -3,34 +3,26 @@
 // See the README file for license info.
 //
 
-#include "my_gl.h"
-#include "my_wid.h"
-#include "my_tex.h"
-#include "my_tile.h"
-#include "my_ttf.h"
-#include "my_ramdisk.h"
-#include "my_time.h"
-#include "my_string.h"
 #include "my_font.h"
-
-#include "my_bits.h"
-#include "my_math.h"
 #include "my_pixel.h"
 #include "stb_image.h"
 #include "stb_image_write.h"
 
+#if 0
 static void ttf_create_tex_from_char(TTF_Font *ttf, const char *name,
                                      Font *f,
                                      uint16_t c,
                                      uint16_t d);
+#endif
 
 //
 // Load a new font and create textures for each glyph
 //
 Fontp ttf_new (std::string name, int pointSize, int style)
 {_
-    TTF_Font *ttf;
-
+#if 0
+    TTF_Font *ttf {};
+#endif
     auto f = new Font();
 
     DBG("Load TTF: %s", name.c_str());
@@ -42,11 +34,13 @@ Fontp ttf_new (std::string name, int pointSize, int style)
     f->background.g = 0;
     f->background.b = 0;
 
+#if 0
     TTF_Init();
     ttf = TTF_OpenFont(name.c_str(), pointSize);
     if (ttf) {
         TTF_SetFontStyle(ttf, style);
     }
+#endif
 
     uint32_t d = 0;
     uint32_t c = TTF_GLYPH_MIN;
@@ -66,16 +60,20 @@ Fontp ttf_new (std::string name, int pointSize, int style)
 
         f->u_to_c[c] = d;
         f->valid[d] = true;
+#if 0
         if (ttf) {
             ttf_create_tex_from_char(ttf, name.c_str(), f, c, d);
         }
+#endif
         c++;
         d++;
     }
 
+#if 0
     if (ttf) {
         TTF_CloseFont(ttf);
     }
+#endif
 
     return (f);
 }
@@ -85,6 +83,7 @@ Fontp ttf_new (std::string name, int pointSize, int style)
 // Pixels that match the color key get an alpha of zero while all other pixels
 // get an alpha of one. We use black for the color key.
 //
+#if 0
 static void
 ttf_set_color_key (SDL_Surface *glyph_surface,
                    GLfloat *texcoord,
@@ -150,10 +149,12 @@ ttf_set_color_key (SDL_Surface *glyph_surface,
     SDL_FreeSurface(tmp);
     oldptr(tmp);
 }
+#endif
 
 //
 // Given a single character, make it into an opengl tex
 //
+#if 0
 static void
 ttf_create_tex_from_char (TTF_Font *ttf, const char *name, Font *f,
                           uint16_t c,
@@ -214,6 +215,7 @@ ttf_create_tex_from_char (TTF_Font *ttf, const char *name, Font *f,
     getref(f->glyphs, d).texMaxX = texcoord[2];
     getref(f->glyphs, d).texMaxY = texcoord[3];
 }
+#endif
 
 Fontp
 ttf_read_tga (Fontp f, const char *name, int pointsize)

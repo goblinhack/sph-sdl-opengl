@@ -4,7 +4,6 @@
 //
 
 #include "my_main.h"
-#include "my_wid.h"
 
 /*
  * Simple console expanding code, takes a comand input and expands it as

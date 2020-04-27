@@ -5,13 +5,7 @@
 
 #include <SDL.h>
 
-#include "my_main.h"
-#include "my_sdl.h"
-#include "my_slre.h"
 #include "my_wid_minicon.h"
-#include "my_ttf.h"
-#include "my_string.h"
-#include "my_wid.h"
 #include "my_ascii.h"
 
 static void wid_minicon_wid_create(void);
@@ -39,7 +33,7 @@ void wid_minicon_fini (void)
 uint8_t wid_minicon_init (void)
 {_
     wid_minicon_wid_create();
-    wid_hide(wid_minicon_window);
+    wid_visible(wid_minicon_window);
 
     last_msg = L"";
     last_msg_count = 0;

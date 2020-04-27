@@ -4,17 +4,7 @@
 //
 
 #include <SDL.h>
-
-#include "my_main.h"
-#include "my_sdl.h"
-#include "my_slre.h"
-#include "my_wid_test.h"
-#include "my_command.h"
-#include "my_ttf.h"
-#include "my_string.h"
-#include "my_wid.h"
 #include "my_wid_popup.h"
-#include "my_wid_text_box.h"
 #include "my_ascii.h"
 
 static void wid_test_wid_create(void);

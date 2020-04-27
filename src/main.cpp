@@ -10,7 +10,6 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-#include "my_main.h"
 #include "my_gl.h"
 #include "my_wid_console.h"
 #include "my_wid_minicon.h"
@@ -675,6 +674,8 @@ int32_t main (int32_t argc, char *argv[])
     wid_toggle_hidden(wid_console_window);
 
     config_gfx_vsync_update();
+
+    MINICON("Running simulation...");
 
     sdl_loop();
 

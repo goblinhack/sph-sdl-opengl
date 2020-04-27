@@ -4,7 +4,6 @@
 //
 
 #include "my_wid_minicon.h"
-#include "my_wid_console.h"
 #include "my_wid_popup.h"
 #include "my_ascii.h"
 

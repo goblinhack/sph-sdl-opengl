@@ -10,7 +10,6 @@
 
 #include "my_main.h"
 #include "my_dir.h"
-#include "my_string.h"
 
 /*
  * Does the requested dir exist?

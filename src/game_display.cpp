@@ -7,5 +7,4 @@
 
 void Game::display (void)
 {_
-    CON("TODO DISPLAY");
 }

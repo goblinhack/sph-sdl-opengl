@@ -3,9 +3,7 @@
 // See the README file for license info.
 //
 
-#include "my_main.h"
 #include "my_tile.h"
-#include "my_gfx.h"
 
 static void gfx_init_ui_box (void)
 {

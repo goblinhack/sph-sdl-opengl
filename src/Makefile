@@ -1,4 +1,4 @@
-COMPILER_FLAGS=-Werror -I/opt/local/include/SDL2 -D_THREAD_SAFE -DVERSION=\"0.0.4\" -g -ggdb3 -O3 # AUTOGEN
+COMPILER_FLAGS=-Werror -I/opt/local/include/SDL2 -D_THREAD_SAFE -g -ggdb3 -O3 # AUTOGEN
     
 CLANG_COMPILER_WARNINGS=-Wall -Wmissing-prototypes -std=c++1z -stdlib=libc++ # AUTOGEN
 GCC_COMPILER_WARNINGS=-x c++ -Wall -std=c++2a -ffast-math  # AUTOGEN
@@ -9,7 +9,7 @@ CC=g++ # AUTOGEN
     
 EXE= # AUTOGEN
 DSYM=dsymutil ../sph_sdl # AUTOGEN
-LDLIBS=-L/opt/local/lib -lSDL2 -lSDL2_mixer -lSDL2_ttf -funwind-tables -rdynamic -Wl,-framework,Opengl # AUTOGEN
+LDLIBS=-L/opt/local/lib -lSDL2 -funwind-tables -rdynamic -Wl,-framework,Opengl # AUTOGEN
 CFLAGS=$(COMPILER_FLAGS) $(COMPILER_WARNINGS) # AUTOGEN
 
 NAME=sph_sdl
@@ -35,7 +35,6 @@ GAME_OBJECTS=				\
     $(OBJDIR)/game_quit.o 		\
     $(OBJDIR)/gfx.o			\
     $(OBJDIR)/gl.o 			\
-    $(OBJDIR)/hexdump.o 		\
     $(OBJDIR)/log.o 			\
     $(OBJDIR)/main.o 			\
     $(OBJDIR)/minilzo.o 		\
@@ -133,11 +132,10 @@ all: $(TARGET_GAME)
 .o/ascii.o: /usr/include/_types/_uint16_t.h /usr/include/_types/_uint32_t.h
 .o/ascii.o: /usr/include/_types/_uint64_t.h /usr/include/_types/_intmax_t.h
 .o/ascii.o: /usr/include/_types/_uintmax_t.h my_callstack.h
-.o/ascii.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/ascii.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/ascii.o: my_token.h my_string.h my_slre.h my_math.h /usr/include/math.h
-.o/ascii.o: my_color.h my_font.h my_tile.h my_tex.h my_gl.h my_time.h
-.o/ascii.o: /usr/include/assert.h /usr/include/unistd.h
+.o/ascii.o: my_array_bounds_check.h my_vector_bounds_check.h my_ptrcheck.h
+.o/ascii.o: my_sdl.h my_command.h my_token.h my_string.h my_slre.h my_math.h
+.o/ascii.o: /usr/include/math.h my_color.h my_font.h my_tile.h my_tex.h
+.o/ascii.o: my_gl.h my_time.h /usr/include/assert.h /usr/include/unistd.h
 .o/ascii.o: /usr/include/sys/unistd.h
 .o/ascii.o: /usr/include/sys/_types/_posix_vdisable.h
 .o/ascii.o: /usr/include/sys/_types/_seek_set.h
@@ -203,9 +201,8 @@ all: $(TARGET_GAME)
 .o/ascii_box.o: /usr/include/_types/_intmax_t.h
 .o/ascii_box.o: /usr/include/_types/_uintmax_t.h my_callstack.h
 .o/ascii_box.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/ascii_box.o: c_plus_plus_serializer.h my_ptrcheck.h my_tex.h my_gl.h
-.o/ascii_box.o: my_color.h my_point.h my_math.h /usr/include/math.h
-.o/ascii_box.o: my_ascii.h
+.o/ascii_box.o: my_ptrcheck.h my_tex.h my_gl.h my_color.h my_point.h
+.o/ascii_box.o: my_math.h /usr/include/math.h my_ascii.h
 .o/color.o: my_main.h my_pcg_basic.h /usr/include/inttypes.h
 .o/color.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
 .o/color.o: /usr/include/sys/_posix_availability.h
@@ -233,8 +230,8 @@ all: $(TARGET_GAME)
 .o/color.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
 .o/color.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
 .o/color.o: /usr/include/secure/_common.h my_array_bounds_check.h
-.o/color.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/color.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
+.o/color.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/color.o: my_token.h my_string.h /usr/include/wchar.h
 .o/color.o: /usr/include/sys/_types/_mbstate_t.h
 .o/color.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/color.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
@@ -275,9 +272,9 @@ all: $(TARGET_GAME)
 .o/command.o: /usr/include/sys/_types/_off_t.h
 .o/command.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
 .o/command.o: /usr/include/secure/_common.h my_array_bounds_check.h
-.o/command.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/command.o: my_sdl.h my_command.h my_token.h my_string.h
-.o/command.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
+.o/command.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/command.o: my_token.h my_string.h /usr/include/wchar.h
+.o/command.o: /usr/include/sys/_types/_mbstate_t.h
 .o/command.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/command.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/command.o: /usr/include/sys/_types/_clock_t.h
@@ -318,9 +315,9 @@ all: $(TARGET_GAME)
 .o/console.o: /usr/include/sys/_types/_off_t.h
 .o/console.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
 .o/console.o: /usr/include/secure/_common.h my_array_bounds_check.h
-.o/console.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/console.o: my_sdl.h my_command.h my_token.h my_string.h
-.o/console.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
+.o/console.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/console.o: my_token.h my_string.h /usr/include/wchar.h
+.o/console.o: /usr/include/sys/_types/_mbstate_t.h
 .o/console.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/console.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/console.o: /usr/include/sys/_types/_clock_t.h
@@ -418,8 +415,8 @@ all: $(TARGET_GAME)
 .o/dir.o: my_callstack.h /usr/include/stdio.h /usr/include/_stdio.h
 .o/dir.o: /usr/include/sys/_types/_va_list.h /usr/include/sys/stdio.h
 .o/dir.o: /usr/include/secure/_stdio.h my_array_bounds_check.h
-.o/dir.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/dir.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
+.o/dir.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/dir.o: my_token.h my_string.h /usr/include/wchar.h
 .o/dir.o: /usr/include/sys/_types/_mbstate_t.h
 .o/dir.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/dir.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
@@ -427,10 +424,12 @@ all: $(TARGET_GAME)
 .o/dir.o: /usr/include/sys/_types/_wint_t.h /usr/include/_types/_wctype_t.h
 .o/dir.o: /usr/include/ctype.h /usr/include/_ctype.h /usr/include/runetype.h
 .o/dir.o: my_slre.h my_dir.h
-.o/file.o: /usr/include/sys/stat.h /usr/include/sys/_types.h
-.o/file.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
+.o/file.o: /usr/include/sys/errno.h /usr/include/sys/cdefs.h
+.o/file.o: /usr/include/sys/_symbol_aliasing.h
 .o/file.o: /usr/include/sys/_posix_availability.h
-.o/file.o: /usr/include/machine/_types.h /usr/include/i386/_types.h
+.o/file.o: /usr/include/sys/_types/_errno_t.h /usr/include/sys/stat.h
+.o/file.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+.o/file.o: /usr/include/i386/_types.h
 .o/file.o: /usr/include/sys/_pthread/_pthread_types.h
 .o/file.o: /usr/include/Availability.h /usr/include/AvailabilityInternal.h
 .o/file.o: /usr/include/sys/_types/_timespec.h /usr/include/machine/types.h
@@ -474,19 +473,18 @@ all: $(TARGET_GAME)
 .o/file.o: /usr/include/sys/_types/_fd_copy.h /usr/include/sys/_select.h
 .o/file.o: /usr/include/sys/_types/_uuid_t.h /usr/include/gethostuuid.h
 .o/file.o: /usr/include/string.h /usr/include/sys/_types/_rsize_t.h
-.o/file.o: /usr/include/sys/_types/_errno_t.h /usr/include/strings.h
-.o/file.o: /usr/include/secure/_strings.h /usr/include/secure/_common.h
-.o/file.o: /usr/include/secure/_string.h /usr/include/time.h
-.o/file.o: /usr/include/sys/_types/_clock_t.h my_main.h my_pcg_basic.h
-.o/file.o: /usr/include/inttypes.h /usr/include/sys/_types/_wchar_t.h
-.o/file.o: /usr/include/stdint.h /usr/include/_types/_uint8_t.h
-.o/file.o: /usr/include/_types/_uint16_t.h /usr/include/_types/_intmax_t.h
-.o/file.o: /usr/include/_types/_uintmax_t.h my_callstack.h
-.o/file.o: /usr/include/stdio.h /usr/include/_stdio.h
+.o/file.o: /usr/include/strings.h /usr/include/secure/_strings.h
+.o/file.o: /usr/include/secure/_common.h /usr/include/secure/_string.h
+.o/file.o: /usr/include/time.h /usr/include/sys/_types/_clock_t.h my_main.h
+.o/file.o: my_pcg_basic.h /usr/include/inttypes.h
+.o/file.o: /usr/include/sys/_types/_wchar_t.h /usr/include/stdint.h
+.o/file.o: /usr/include/_types/_uint8_t.h /usr/include/_types/_uint16_t.h
+.o/file.o: /usr/include/_types/_intmax_t.h /usr/include/_types/_uintmax_t.h
+.o/file.o: my_callstack.h /usr/include/stdio.h /usr/include/_stdio.h
 .o/file.o: /usr/include/sys/_types/_va_list.h /usr/include/sys/stdio.h
 .o/file.o: /usr/include/secure/_stdio.h my_array_bounds_check.h
-.o/file.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/file.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
+.o/file.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/file.o: my_token.h my_string.h /usr/include/wchar.h
 .o/file.o: /usr/include/sys/_types/_mbstate_t.h
 .o/file.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/file.o: /usr/include/sys/_types/_rune_t.h /usr/include/_wctype.h
@@ -530,9 +528,8 @@ all: $(TARGET_GAME)
 .o/file_read.o: /usr/include/sys/_types/_va_list.h /usr/include/sys/stdio.h
 .o/file_read.o: /usr/include/sys/_types/_off_t.h /usr/include/secure/_stdio.h
 .o/file_read.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/file_read.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/file_read.o: my_token.h my_string.h /usr/include/wchar.h
-.o/file_read.o: /usr/include/sys/_types/_mbstate_t.h
+.o/file_read.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/file_read.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/file_read.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/file_read.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/file_read.o: /usr/include/sys/_types/_clock_t.h
@@ -570,8 +567,8 @@ all: $(TARGET_GAME)
 .o/font.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
 .o/font.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
 .o/font.o: /usr/include/secure/_common.h my_array_bounds_check.h
-.o/font.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/font.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
+.o/font.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/font.o: my_token.h my_string.h /usr/include/wchar.h
 .o/font.o: /usr/include/sys/_types/_mbstate_t.h
 .o/font.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/font.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
@@ -609,8 +606,8 @@ all: $(TARGET_GAME)
 .o/game.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
 .o/game.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
 .o/game.o: /usr/include/secure/_common.h my_array_bounds_check.h
-.o/game.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/game.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
+.o/game.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/game.o: my_token.h my_string.h /usr/include/wchar.h
 .o/game.o: /usr/include/sys/_types/_mbstate_t.h
 .o/game.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/game.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
@@ -660,9 +657,8 @@ all: $(TARGET_GAME)
 .o/game_config_keyboard.o: /usr/include/secure/_stdio.h
 .o/game_config_keyboard.o: /usr/include/secure/_common.h
 .o/game_config_keyboard.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/game_config_keyboard.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h
-.o/game_config_keyboard.o: my_command.h my_token.h my_string.h
-.o/game_config_keyboard.o: /usr/include/wchar.h
+.o/game_config_keyboard.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h
+.o/game_config_keyboard.o: my_string.h /usr/include/wchar.h
 .o/game_config_keyboard.o: /usr/include/sys/_types/_mbstate_t.h
 .o/game_config_keyboard.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/game_config_keyboard.o: /usr/include/sys/_types/_rune_t.h
@@ -715,9 +711,8 @@ all: $(TARGET_GAME)
 .o/game_display.o: /usr/include/sys/_types/_ssize_t.h
 .o/game_display.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
 .o/game_display.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/game_display.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h
-.o/game_display.o: my_command.h my_token.h my_string.h /usr/include/wchar.h
-.o/game_display.o: /usr/include/sys/_types/_mbstate_t.h
+.o/game_display.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/game_display.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/game_display.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/game_display.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/game_display.o: /usr/include/sys/_types/_clock_t.h
@@ -768,9 +763,8 @@ all: $(TARGET_GAME)
 .o/game_error.o: /usr/include/sys/_types/_ssize_t.h
 .o/game_error.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
 .o/game_error.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/game_error.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/game_error.o: my_token.h my_string.h /usr/include/wchar.h
-.o/game_error.o: /usr/include/sys/_types/_mbstate_t.h
+.o/game_error.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/game_error.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/game_error.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/game_error.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/game_error.o: /usr/include/sys/_types/_clock_t.h
@@ -817,9 +811,8 @@ all: $(TARGET_GAME)
 .o/game_fini.o: /usr/include/sys/_types/_ssize_t.h
 .o/game_fini.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
 .o/game_fini.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/game_fini.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/game_fini.o: my_token.h my_string.h /usr/include/wchar.h
-.o/game_fini.o: /usr/include/sys/_types/_mbstate_t.h
+.o/game_fini.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/game_fini.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/game_fini.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/game_fini.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/game_fini.o: /usr/include/sys/_types/_clock_t.h
@@ -862,9 +855,8 @@ all: $(TARGET_GAME)
 .o/game_init.o: /usr/include/sys/_types/_ssize_t.h
 .o/game_init.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
 .o/game_init.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/game_init.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/game_init.o: my_token.h my_string.h /usr/include/wchar.h
-.o/game_init.o: /usr/include/sys/_types/_mbstate_t.h
+.o/game_init.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/game_init.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/game_init.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/game_init.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/game_init.o: /usr/include/sys/_types/_clock_t.h
@@ -908,9 +900,8 @@ all: $(TARGET_GAME)
 .o/game_notice.o: /usr/include/sys/_types/_ssize_t.h
 .o/game_notice.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
 .o/game_notice.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/game_notice.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h
-.o/game_notice.o: my_command.h my_token.h my_string.h /usr/include/wchar.h
-.o/game_notice.o: /usr/include/sys/_types/_mbstate_t.h
+.o/game_notice.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/game_notice.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/game_notice.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/game_notice.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/game_notice.o: /usr/include/sys/_types/_clock_t.h
@@ -958,9 +949,8 @@ all: $(TARGET_GAME)
 .o/game_quit.o: /usr/include/sys/_types/_ssize_t.h
 .o/game_quit.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
 .o/game_quit.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/game_quit.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/game_quit.o: my_token.h my_string.h /usr/include/wchar.h
-.o/game_quit.o: /usr/include/sys/_types/_mbstate_t.h
+.o/game_quit.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/game_quit.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/game_quit.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/game_quit.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/game_quit.o: /usr/include/sys/_types/_clock_t.h
@@ -999,8 +989,8 @@ all: $(TARGET_GAME)
 .o/gfx.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
 .o/gfx.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
 .o/gfx.o: /usr/include/secure/_common.h my_array_bounds_check.h
-.o/gfx.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/gfx.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
+.o/gfx.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/gfx.o: my_token.h my_string.h /usr/include/wchar.h
 .o/gfx.o: /usr/include/sys/_types/_mbstate_t.h
 .o/gfx.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/gfx.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
@@ -1012,8 +1002,8 @@ all: $(TARGET_GAME)
 .o/gfx.o: /usr/include/_ctype.h /usr/include/runetype.h my_slre.h my_tile.h
 .o/gfx.o: my_tex.h my_gl.h my_color.h my_point.h my_math.h
 .o/gfx.o: /usr/include/math.h my_gfx.h
-.o/gl.o: my_gl.h my_color.h c_plus_plus_serializer.h my_point.h my_main.h
-.o/gl.o: my_pcg_basic.h /usr/include/inttypes.h /usr/include/sys/cdefs.h
+.o/gl.o: my_gl.h my_color.h my_point.h my_main.h my_pcg_basic.h
+.o/gl.o: /usr/include/inttypes.h /usr/include/sys/cdefs.h
 .o/gl.o: /usr/include/sys/_symbol_aliasing.h
 .o/gl.o: /usr/include/sys/_posix_availability.h /usr/include/Availability.h
 .o/gl.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
@@ -1100,8 +1090,8 @@ all: $(TARGET_GAME)
 .o/log.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
 .o/log.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
 .o/log.o: /usr/include/secure/_common.h my_array_bounds_check.h
-.o/log.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/log.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
+.o/log.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/log.o: my_token.h my_string.h /usr/include/wchar.h
 .o/log.o: /usr/include/sys/_types/_mbstate_t.h
 .o/log.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/log.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
@@ -1196,9 +1186,8 @@ all: $(TARGET_GAME)
 .o/main.o: /usr/include/stdio.h /usr/include/_stdio.h
 .o/main.o: /usr/include/sys/_types/_va_list.h /usr/include/sys/stdio.h
 .o/main.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
-.o/main.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/main.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/main.o: my_token.h my_string.h /usr/include/wchar.h
+.o/main.o: my_array_bounds_check.h my_vector_bounds_check.h my_ptrcheck.h
+.o/main.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
 .o/main.o: /usr/include/sys/_types/_mbstate_t.h
 .o/main.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/main.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
@@ -1307,10 +1296,9 @@ all: $(TARGET_GAME)
 .o/ptrcheck.o: /usr/include/sys/_types/_off_t.h
 .o/ptrcheck.o: /usr/include/sys/_types/_ssize_t.h
 .o/ptrcheck.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
-.o/ptrcheck.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/ptrcheck.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/ptrcheck.o: my_token.h my_string.h /usr/include/wchar.h
-.o/ptrcheck.o: /usr/include/sys/_types/_mbstate_t.h
+.o/ptrcheck.o: my_array_bounds_check.h my_vector_bounds_check.h my_ptrcheck.h
+.o/ptrcheck.o: my_sdl.h my_command.h my_token.h my_string.h
+.o/ptrcheck.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/ptrcheck.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/ptrcheck.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/ptrcheck.o: /usr/include/sys/_types/_clock_t.h
@@ -1346,8 +1334,8 @@ all: $(TARGET_GAME)
 .o/ptrcheck.o: /usr/include/sys/_types/_mode_t.h
 .o/ptrcheck.o: /usr/include/sys/_types/_uuid_t.h /usr/include/gethostuuid.h
 .o/ptrcheck.o: /usr/include/sys/time.h /usr/include/sys/_types/_timeval64.h
-.o/sdl.o: my_gl.h my_color.h c_plus_plus_serializer.h my_point.h my_main.h
-.o/sdl.o: my_pcg_basic.h /usr/include/inttypes.h /usr/include/sys/cdefs.h
+.o/sdl.o: my_gl.h my_color.h my_point.h my_main.h my_pcg_basic.h
+.o/sdl.o: /usr/include/inttypes.h /usr/include/sys/cdefs.h
 .o/sdl.o: /usr/include/sys/_symbol_aliasing.h
 .o/sdl.o: /usr/include/sys/_posix_availability.h /usr/include/Availability.h
 .o/sdl.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
@@ -1586,9 +1574,9 @@ all: $(TARGET_GAME)
 .o/string.o: /usr/include/sys/_types/_off_t.h
 .o/string.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
 .o/string.o: /usr/include/secure/_common.h my_array_bounds_check.h
-.o/string.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/string.o: my_sdl.h my_command.h my_token.h my_string.h
-.o/string.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
+.o/string.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/string.o: my_token.h my_string.h /usr/include/wchar.h
+.o/string.o: /usr/include/sys/_types/_mbstate_t.h
 .o/string.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/string.o: /usr/include/sys/_types/_rune_t.h /usr/include/_wctype.h
 .o/string.o: /usr/include/__wctype.h /usr/include/sys/_types/_wint_t.h
@@ -1671,19 +1659,19 @@ all: $(TARGET_GAME)
 .o/tex.o: /usr/include/limits.h /usr/include/machine/limits.h
 .o/tex.o: /usr/include/i386/limits.h /usr/include/i386/_limits.h
 .o/tex.o: /usr/include/sys/syslimits.h /usr/include/math.h
-.o/tex.o: /usr/include/assert.h my_gl.h my_color.h c_plus_plus_serializer.h
-.o/tex.o: my_point.h my_main.h my_pcg_basic.h /usr/include/inttypes.h
-.o/tex.o: my_callstack.h my_array_bounds_check.h my_vector_bounds_check.h
-.o/tex.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
-.o/tex.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
-.o/tex.o: /usr/include/time.h /usr/include/sys/_types/_clock_t.h
+.o/tex.o: /usr/include/assert.h my_gl.h my_color.h my_point.h my_main.h
+.o/tex.o: my_pcg_basic.h /usr/include/inttypes.h my_callstack.h
+.o/tex.o: my_array_bounds_check.h my_vector_bounds_check.h my_ptrcheck.h
+.o/tex.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
+.o/tex.o: /usr/include/sys/_types/_mbstate_t.h /usr/include/time.h
+.o/tex.o: /usr/include/sys/_types/_clock_t.h
 .o/tex.o: /usr/include/sys/_types/_time_t.h
 .o/tex.o: /usr/include/sys/_types/_timespec.h /usr/include/_wctype.h
 .o/tex.o: /usr/include/__wctype.h /usr/include/_types/_wctype_t.h
 .o/tex.o: /usr/include/ctype.h /usr/include/_ctype.h /usr/include/runetype.h
 .o/tex.o: my_slre.h my_math.h my_tex.h my_ramdisk.h my_pixel.h
-.o/tile.o: my_gl.h my_color.h c_plus_plus_serializer.h my_point.h my_main.h
-.o/tile.o: my_pcg_basic.h /usr/include/inttypes.h /usr/include/sys/cdefs.h
+.o/tile.o: my_gl.h my_color.h my_point.h my_main.h my_pcg_basic.h
+.o/tile.o: /usr/include/inttypes.h /usr/include/sys/cdefs.h
 .o/tile.o: /usr/include/sys/_symbol_aliasing.h
 .o/tile.o: /usr/include/sys/_posix_availability.h /usr/include/Availability.h
 .o/tile.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
@@ -1749,8 +1737,8 @@ all: $(TARGET_GAME)
 .o/time.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
 .o/time.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
 .o/time.o: /usr/include/secure/_common.h my_array_bounds_check.h
-.o/time.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/time.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
+.o/time.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/time.o: my_token.h my_string.h /usr/include/wchar.h
 .o/time.o: /usr/include/sys/_types/_mbstate_t.h
 .o/time.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/time.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
@@ -1811,9 +1799,8 @@ all: $(TARGET_GAME)
 .o/token.o: /usr/include/stdio.h /usr/include/_stdio.h
 .o/token.o: /usr/include/sys/_types/_va_list.h /usr/include/sys/stdio.h
 .o/token.o: /usr/include/sys/_types/_off_t.h /usr/include/secure/_stdio.h
-.o/token.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/token.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/token.o: my_token.h my_string.h /usr/include/wchar.h
+.o/token.o: my_array_bounds_check.h my_vector_bounds_check.h my_ptrcheck.h
+.o/token.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
 .o/token.o: /usr/include/sys/_types/_mbstate_t.h
 .o/token.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/token.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
@@ -1857,9 +1844,8 @@ all: $(TARGET_GAME)
 .o/traceback.o: /usr/include/sys/_types/_ssize_t.h
 .o/traceback.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
 .o/traceback.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/traceback.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/traceback.o: my_token.h my_string.h /usr/include/wchar.h
-.o/traceback.o: /usr/include/sys/_types/_mbstate_t.h
+.o/traceback.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/traceback.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/traceback.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/traceback.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/traceback.o: /usr/include/sys/_types/_clock_t.h
@@ -1896,8 +1882,8 @@ all: $(TARGET_GAME)
 .o/traceback.o: /usr/include/sys/_types/_offsetof.h
 .o/traceback.o: /usr/include/sys/_types/_ptrdiff_t.h
 .o/traceback.o: /usr/include/__cxxabi_config.h
-.o/ttf.o: my_gl.h my_color.h c_plus_plus_serializer.h my_point.h my_main.h
-.o/ttf.o: my_pcg_basic.h /usr/include/inttypes.h /usr/include/sys/cdefs.h
+.o/ttf.o: my_gl.h my_color.h my_point.h my_main.h my_pcg_basic.h
+.o/ttf.o: /usr/include/inttypes.h /usr/include/sys/cdefs.h
 .o/ttf.o: /usr/include/sys/_symbol_aliasing.h
 .o/ttf.o: /usr/include/sys/_posix_availability.h /usr/include/Availability.h
 .o/ttf.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
@@ -2002,8 +1988,8 @@ all: $(TARGET_GAME)
 .o/util.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
 .o/util.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
 .o/util.o: /usr/include/secure/_common.h my_array_bounds_check.h
-.o/util.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/util.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
+.o/util.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/util.o: my_token.h my_string.h /usr/include/wchar.h
 .o/util.o: /usr/include/sys/_types/_mbstate_t.h
 .o/util.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/util.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
@@ -2060,8 +2046,8 @@ all: $(TARGET_GAME)
 .o/wid.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
 .o/wid.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
 .o/wid.o: /usr/include/secure/_common.h my_array_bounds_check.h
-.o/wid.o: my_vector_bounds_check.h c_plus_plus_serializer.h my_ptrcheck.h
-.o/wid.o: my_sdl.h my_command.h my_token.h my_string.h /usr/include/wchar.h
+.o/wid.o: my_vector_bounds_check.h my_ptrcheck.h my_sdl.h my_command.h
+.o/wid.o: my_token.h my_string.h /usr/include/wchar.h
 .o/wid.o: /usr/include/sys/_types/_mbstate_t.h
 .o/wid.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/wid.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
@@ -2142,9 +2128,8 @@ all: $(TARGET_GAME)
 .o/wid_console.o: /usr/include/sys/_types/_ssize_t.h
 .o/wid_console.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
 .o/wid_console.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/wid_console.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h
-.o/wid_console.o: my_command.h my_token.h my_string.h /usr/include/wchar.h
-.o/wid_console.o: /usr/include/sys/_types/_mbstate_t.h
+.o/wid_console.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/wid_console.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/wid_console.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/wid_console.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/wid_console.o: /usr/include/sys/_types/_clock_t.h
@@ -2191,9 +2176,8 @@ all: $(TARGET_GAME)
 .o/wid_minicon.o: /usr/include/sys/_types/_ssize_t.h
 .o/wid_minicon.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
 .o/wid_minicon.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/wid_minicon.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h
-.o/wid_minicon.o: my_command.h my_token.h my_string.h /usr/include/wchar.h
-.o/wid_minicon.o: /usr/include/sys/_types/_mbstate_t.h
+.o/wid_minicon.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/wid_minicon.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/wid_minicon.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/wid_minicon.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/wid_minicon.o: /usr/include/sys/_types/_clock_t.h
@@ -2239,9 +2223,8 @@ all: $(TARGET_GAME)
 .o/wid_popup.o: /usr/include/sys/_types/_ssize_t.h
 .o/wid_popup.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
 .o/wid_popup.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/wid_popup.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/wid_popup.o: my_token.h my_string.h /usr/include/wchar.h
-.o/wid_popup.o: /usr/include/sys/_types/_mbstate_t.h
+.o/wid_popup.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/wid_popup.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/wid_popup.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/wid_popup.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/wid_popup.o: /usr/include/sys/_types/_clock_t.h
@@ -2285,10 +2268,9 @@ all: $(TARGET_GAME)
 .o/wid_test.o: /usr/include/sys/_types/_off_t.h
 .o/wid_test.o: /usr/include/sys/_types/_ssize_t.h
 .o/wid_test.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
-.o/wid_test.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/wid_test.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/wid_test.o: my_token.h my_string.h /usr/include/wchar.h
-.o/wid_test.o: /usr/include/sys/_types/_mbstate_t.h
+.o/wid_test.o: my_array_bounds_check.h my_vector_bounds_check.h my_ptrcheck.h
+.o/wid_test.o: my_sdl.h my_command.h my_token.h my_string.h
+.o/wid_test.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/wid_test.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/wid_test.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/wid_test.o: /usr/include/sys/_types/_clock_t.h
@@ -2336,9 +2318,8 @@ all: $(TARGET_GAME)
 .o/wid_text_box.o: /usr/include/sys/_types/_ssize_t.h
 .o/wid_text_box.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
 .o/wid_text_box.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/wid_text_box.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h
-.o/wid_text_box.o: my_command.h my_token.h my_string.h /usr/include/wchar.h
-.o/wid_text_box.o: /usr/include/sys/_types/_mbstate_t.h
+.o/wid_text_box.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/wid_text_box.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/wid_text_box.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/wid_text_box.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/wid_text_box.o: /usr/include/sys/_types/_clock_t.h
@@ -2385,9 +2366,8 @@ all: $(TARGET_GAME)
 .o/wid_tiles.o: /usr/include/sys/_types/_ssize_t.h
 .o/wid_tiles.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
 .o/wid_tiles.o: my_array_bounds_check.h my_vector_bounds_check.h
-.o/wid_tiles.o: c_plus_plus_serializer.h my_ptrcheck.h my_sdl.h my_command.h
-.o/wid_tiles.o: my_token.h my_string.h /usr/include/wchar.h
-.o/wid_tiles.o: /usr/include/sys/_types/_mbstate_t.h
+.o/wid_tiles.o: my_ptrcheck.h my_sdl.h my_command.h my_token.h my_string.h
+.o/wid_tiles.o: /usr/include/wchar.h /usr/include/sys/_types/_mbstate_t.h
 .o/wid_tiles.o: /usr/include/sys/_types/_ct_rune_t.h
 .o/wid_tiles.o: /usr/include/sys/_types/_rune_t.h /usr/include/time.h
 .o/wid_tiles.o: /usr/include/sys/_types/_clock_t.h

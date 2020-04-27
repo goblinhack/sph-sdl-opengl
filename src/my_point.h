@@ -8,7 +8,6 @@
 
 #include "my_main.h"
 #include "my_math.h"
-#include "c_plus_plus_serializer.h"
 
 template<class T> class my_apoint
 {
@@ -21,25 +20,6 @@ public:
     my_apoint (T x, T y) : x(x), y(y) { }
 
     my_apoint (const my_apoint &a) : x(a.x), y(a.y) { }
-
-    friend std::ostream& operator<<(std::ostream &out,
-                                    Bits<const my_apoint & > const my)
-    {
-        out << bits(my.t.x) << bits(my.t.y);
-        return (out);
-    }
-
-    friend std::istream& operator>>(std::istream &in, Bits<my_apoint &> my)
-    {
-        in >> bits(my.t.x) >> bits(my.t.y);
-        return (in);
-    }
-
-    friend std::ostream& operator << (std::ostream &out, const my_apoint &my)
-    {
-        out << "(" << my.x << ", " << my.y << ")";
-        return (out);
-    }
 
     std::string to_string(void)
     {
@@ -394,19 +374,6 @@ public:
     my_apoint3d (T x, T y, T z) : x(x), y(y), z(z) { }
 
     my_apoint3d (const my_apoint3d &a) : x(a.x), y(a.y), z(a.z) { }
-
-    friend std::ostream& operator<<(std::ostream &out,
-                                    Bits<const my_apoint3d & > const my)
-    {
-        out << bits(my.t.x) << bits(my.t.y) << bits(my.t.z);
-        return (out);
-    }
-
-    friend std::istream& operator>>(std::istream &in, Bits<my_apoint3d &> my)
-    {
-        in >> bits(my.t.x) >> bits(my.t.y) >> bits(my.t.z);
-        return (in);
-    }
 
     void operator+= (my_apoint3d a)
     {

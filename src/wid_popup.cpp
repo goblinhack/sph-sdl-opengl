@@ -4,17 +4,7 @@
 //
 
 #include <SDL.h>
-
-#include "my_main.h"
-#include "my_sdl.h"
-#include "my_slre.h"
 #include "my_wid_popup.h"
-#include "my_ttf.h"
-#include "my_string.h"
-#include "my_wid.h"
-#include "my_ascii.h"
-#include "my_wid_popup.h"
-#include "my_wid_text_box.h"
 
 WidPopup::~WidPopup()
 {
