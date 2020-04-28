@@ -86,7 +86,17 @@ public:
         return (my_apoint(a.x / b, a.y / b));
     }
 
+    friend my_apoint operator/ (T b, my_apoint a)
+    {
+        return (my_apoint(a.x / b, a.y / b));
+    }
+
     friend my_apoint operator* (my_apoint a, T b)
+    {
+        return (my_apoint(a.x * b, a.y * b));
+    }
+
+    friend my_apoint operator* (T b, my_apoint a)
     {
         return (my_apoint(a.x * b, a.y * b));
     }
