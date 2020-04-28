@@ -7,4 +7,5 @@
 
 void Game::init (void)
 {_
+    config_keyboard_select();
 }

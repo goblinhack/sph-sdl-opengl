@@ -115,9 +115,6 @@ void quit (void)
     LOG("FINI: wid_minicon_fini");
     wid_minicon_fini();
 
-    LOG("FINI: wid_test_fini");
-    wid_test_fini();
-
     LOG("FINI: command_fini");
     command_fini();
 
@@ -549,6 +546,7 @@ int32_t main (int32_t argc, char *argv[])
     //
     CON("INIT: Load game config");
     game = new Game(std::string(appdata));
+//    game->init();
 
     if (opt_debug_mode) {
         game->config.debug_mode = opt_debug_mode;

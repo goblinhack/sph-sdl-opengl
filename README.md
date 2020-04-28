@@ -9,8 +9,6 @@
 
 SPH Water Simulation
 
-```
-
 A simple (unoptimized) 2D implementation of the 'Smoothed Particle Hydrodynamics' method for water simulation in C++.
 
 Uses SDL + opengl, no shaders.

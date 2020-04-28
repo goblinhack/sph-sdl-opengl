@@ -125,25 +125,6 @@ extern int TILES_DOWN;
 #define ASCII_HEIGHT_MAX ASCII_WIDTH_MAX
 
 ////////////////////////////////////////////////////////////////////////////
-// Level
-////////////////////////////////////////////////////////////////////////////
-//
-// Dungeon size; composed of a grid of rooms
-//
-#define GRID_WIDTH      5
-#define GRID_HEIGHT     5
-#define ROOM_WIDTH      13
-#define ROOM_HEIGHT     13
-
-//
-// Dungeon level has a pad of tiles around the edges
-//
-#define MAP_BORDER      10
-#define MAP_ROCK_BORDER 1
-#define MAP_WIDTH       ((GRID_WIDTH*ROOM_WIDTH) + (MAP_BORDER*2))
-#define MAP_HEIGHT      ((GRID_HEIGHT*ROOM_HEIGHT) + (MAP_BORDER*2))
-
-////////////////////////////////////////////////////////////////////////////
 // Particles
 ////////////////////////////////////////////////////////////////////////////
 //
@@ -154,32 +135,6 @@ extern int TILES_DOWN;
 #define PARTICLE_MAX     200
 #define PARTICLES_WIDTH  (MAP_WIDTH * (TILE_WIDTH / PARTICLE_RADIUS))
 #define PARTICLES_HEIGHT (MAP_HEIGHT * (TILE_HEIGHT / PARTICLE_RADIUS))
-
-////////////////////////////////////////////////////////////////////////////
-// World
-////////////////////////////////////////////////////////////////////////////
-#define LEVELS_DEEP   32
-#define LEVELS_ACROSS MAP_WIDTH
-#define LEVELS_DOWN   MAP_HEIGHT
-
-////////////////////////////////////////////////////////////////////////////
-// Things on map
-////////////////////////////////////////////////////////////////////////////
-
-#define MAP_SLOTS                   32
-#define MAX_THINGS                  (1 << 15)
-#define MAX_THINGS_MASK             (MAX_THINGS - 1)
-#define MAX_THING_COLL_DELAY_TENTHS 1
-
-////////////////////////////////////////////////////////////////////////////
-// Lights
-////////////////////////////////////////////////////////////////////////////
-
-//
-// Light sources
-//
-#define MAX_LIGHT_RAYS              (180)
-#define MAX_LIGHT_PLAYER_DISTANCE   (TILES_ACROSS + (TILES_ACROSS / 2))
 
 ////////////////////////////////////////////////////////////////////////////
 // UI button styles
@@ -196,15 +151,6 @@ extern int TILES_DOWN;
 #define WID_POPUP_WIDTH_NORMAL      24
 #define WID_POPUP_WIDTH_WIDE        36
 #define WID_POPUP_WIDTH_WIDEST      48
-
-////////////////////////////////////////////////////////////////////////////
-// UI save slots
-////////////////////////////////////////////////////////////////////////////
-
-//
-// How many save game slots
-//
-#define MAX_SAVE_SLOTS              10
 
 ////////////////////////////////////////////////////////////////////////////
 // UI console
@@ -228,7 +174,7 @@ extern int TILES_DOWN;
 // Minicon
 //
 #define MINICON_TEXT_COLOR          RESET_TEXT_COLOR
-#define MINICON_WIDTH               (ASCII_WIDTH - SIDEBAR_WIDTH)
+#define MINICON_WIDTH               ASCII_WIDTH
 #define MINICON_HEIGHT              20 // scrollbar limit
 #define MINICON_VIS_HEIGHT          5
 #define MINICON_VIS_WIDTH           MINICON_WIDTH
@@ -242,11 +188,6 @@ extern int TILES_DOWN;
 //
 #define STATUSBAR_ICON_STEPS        12
 #define HEALTH_ICON_STEPS           5
-
-//
-// Sidebar includes all stats e.g. health / attack / defence
-//
-#define SIDEBAR_WIDTH               12
 
 #define ACTIONBAR_HEIGHT            3
 #define ACTIONBAR_WIDTH             3
@@ -278,12 +219,7 @@ extern int TILES_DOWN;
 //
 // Fonts
 //
-//#define ENABLE_GENERATE_TTF
-//#define FIXED_FONT                "data/ttf/dejavu-nerd.ttf"
-//#define FIXED_FONT                "data/ttf/unscii-16.ttf"
-//#define FIXED_FONT                "data/ttf/PressStart2P.ttf"
-//#define FONT_SIZE                 8
-#define FIXED_FONT                  "data/ttf/6x6.tga"
+#define FIXED_FONT                  "data/ttf/lowresfont.tga"
 #define FONT_WIDTH                  20
 #define FONT_HEIGHT                 24
 

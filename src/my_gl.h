@@ -312,13 +312,9 @@ void gl_ortho_set(int32_t width, int32_t height);
 // Frame buffer objects
 //
 #define FBO_MAP                 0
-#define FBO_MAP_VISIBLE         1
-#define FBO_MAP_HIDDEN          2
-#define FBO_WID                 3
-#define FBO_LIGHT               4
-#define FBO_MINIMAP             5
-#define FBO_FINAL               6
-#define MAX_FBO                 7
+#define FBO_WID                 1
+#define FBO_FINAL               2
+#define MAX_FBO                 3
 
 extern std::array<GLuint, MAX_FBO> render_buf_id;
 extern std::array<GLuint, MAX_FBO> fbo_id;

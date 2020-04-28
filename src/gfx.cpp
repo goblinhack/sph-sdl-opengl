@@ -248,10 +248,21 @@ static void gfx_init_text (void)
                   FONT_WIDTH, FONT_HEIGHT, arr);
 }
 
+static void gfx_init_tiles (void)
+{
+    std::initializer_list<std::string> tiles = {
+        "box",   "ball",   "pipe",
+    };
+
+    std::vector<std::string> arr(tiles);
+    tile_load_arr("data/gfx/16x16.tga", "tiles", 16, 16, arr);
+}
+
 void gfx_init (void)
 {
     gfx_init_text();
     gfx_init_ui_box();
+    gfx_init_tiles();
 }
 
 void gfx_fini (void)

@@ -3529,10 +3529,6 @@ static uint8_t wid_receive_unhandled_input (const SDL_KEYSYM *key)
                     MINICON("USERCFG: screenshot taken");
                     break;
 
-                case '?':
-                    game->config_keyboard_select();
-                    break;
-
                 case '`':
                     wid_toggle_hidden(wid_console_window);
                     wid_raise(wid_console_window);
