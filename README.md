@@ -1,4 +1,4 @@
-'''
+```diff
  ____  ____  ____     ____  ____  _         ___  ____  _____ _   _  ____ _
 / ___||  _ \|  _ \   / ___||  _ \| |       / _ \|  _ \| ____| \ | |/ ___| |
 \___ \| |_) | | | |  \___ \| | | | |      | | | | |_) |  _| |  \| | |  _| |
@@ -9,6 +9,7 @@
 
 SPH Water Simulation
 
+```
 
 A simple (unoptimized) 2D implementation of the 'Smoothed Particle Hydrodynamics' method for water simulation in C++.
 
