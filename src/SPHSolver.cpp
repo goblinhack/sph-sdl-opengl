@@ -48,36 +48,6 @@ SPHSolver::SPHSolver()
     grid.updateStructure(particles);
 }
 
-void SPHSolver::setParticleColors(Visualization vis)
-{
-    float min;
-    float max;
-
-    switch (vis)
-    {
-    case Visualization::Default:
-        break;
-    case Visualization::Velocity:
-        min = 0.0f;
-        max = 20000.0f;
-        break;
-    case Visualization::Force:
-        min = 10000000000000000.0f;
-        max = 2000000000000000000.0f;
-        break;
-    case Visualization::Density:
-        min = 2000.0f;
-        max = 12000.0f;
-        break;
-    case Visualization::Pressure:
-        min = 500.0f;
-        max = 30000.0f;
-        break;
-    default:
-        break;
-    }
-}
-
 void SPHSolver::render (Visualization vis)
 {
     for (int i = 0; i < numberParticles; i++)

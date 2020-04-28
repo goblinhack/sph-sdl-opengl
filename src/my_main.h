@@ -512,7 +512,7 @@ public:
 #else
     bool               gfx_inverted                 = false;
 #endif
-    uint32_t           gfx_zoom                     = 4;
+    uint32_t           gfx_zoom                     = 1;
     bool               gfx_vsync_enable             = true;
     bool               debug_mode                   = false;
     bool               fullscreen                   = false;

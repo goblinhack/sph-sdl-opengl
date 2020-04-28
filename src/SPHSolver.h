@@ -46,7 +46,4 @@ private:
         void integrationStep(float dt);
 
         void collisionHandling();
-
-        void setParticleColors(Visualization vis);
 };
-

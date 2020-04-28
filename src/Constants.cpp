@@ -2,10 +2,10 @@
 
 namespace Constants
 {
-	const float WIDTH = 2;
-	const float HEIGHT = 2;
+	const float WIDTH = 1;
+	const float HEIGHT = 1;
 
-	const float SCALE = 100;
+	const float SCALE = 1000;
 
 	const int	RENDER_WIDTH = SCALE * WIDTH;
 	const int	RENDER_HEIGHT = SCALE * HEIGHT;
