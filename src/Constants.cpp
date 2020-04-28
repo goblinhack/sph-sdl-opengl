@@ -2,15 +2,13 @@
 
 namespace Constants
 {
-	const float WIDTH = 3;
-	const float HEIGHT = 1.5;
+	const float WIDTH = 2;
+	const float HEIGHT = 2;
 
-	const float SCALE = 400;
+	const float SCALE = 100;
 
 	const int	RENDER_WIDTH = SCALE * WIDTH;
 	const int	RENDER_HEIGHT = SCALE * HEIGHT;
-
-	const float WINDOW_SCALE = 1.0f;
 
 	const float TIMESTEP = 0.0001f;
 

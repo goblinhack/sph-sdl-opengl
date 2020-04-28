@@ -4,7 +4,13 @@
 //
 
 #include "my_main.h"
+#include "SPHSolver.h"
+#include "Constants.h"
+
+extern SPHSolver sph;
 
 void Game::display (void)
 {_
+    sph.update(Constants::TIMESTEP, Visualization::Water);
+    sph.render(Visualization::Water);
 }

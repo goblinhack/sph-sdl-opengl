@@ -1,4 +1,6 @@
 #include "SPHSolver.h"
+#include "my_gl.h"
+#include "my_tile.h"
 
 #include <iostream>
 #include <cmath>
@@ -83,6 +85,15 @@ void SPHSolver::render (Visualization vis)
         particles[i].force = fpoint(0.0f, 0.0f);
     }
 
+    static auto tile = tile_find_mand("C16");
+
+    blit_fbo_bind(FBO_MAP);
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glBlendFunc(GL_ONE, GL_ZERO);
+    glcolorfast(WHITE);
+
+    blit_init();
     // CircleShape circle(0.5f * PARTICLE_SPACING * SCALE);
     for (int i = 0; i < numberParticles; i++)
     {
@@ -91,7 +102,11 @@ void SPHSolver::render (Visualization vis)
         // circle.setFillColor(particles[i].renderColor);
         // circle.setPosition(particles[i].position * SCALE);
         // rt.draw(circle);
+        fpoint at = particles[i].position;
+        at *= SCALE;
+        tile_blit(tile, at, at + fpoint(WIDTH, HEIGHT));
     }
+    blit_flush();
 }
 
 void SPHSolver::repulsionForce(fpoint position)
