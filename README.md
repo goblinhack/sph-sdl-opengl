@@ -7,6 +7,7 @@
                 |_____|               |_____|
 
 SPH Water Simulation
+```
 
 A simple (unoptimized) 2D implementation of the 'Smoothed Particle Hydrodynamics' method for water simulation in C++.
 
@@ -14,7 +15,6 @@ Uses SDL + opengl, no shaders.
 
 Based on [a link](https://github.com/tizian/SPH-Water-Simulation)
 
-```
 ![Alt text](screenshot.1.png?raw=true "")
 ![Alt text](screenshot.2.png?raw=true "")
 ![Alt text](screenshot.3.png?raw=true "")
