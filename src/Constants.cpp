@@ -5,10 +5,7 @@ namespace Constants
 	const float WIDTH = 1;
 	const float HEIGHT = 1;
 
-	const float SCALE = 1000;
-
-	const int	RENDER_WIDTH = SCALE * WIDTH;
-	const int	RENDER_HEIGHT = SCALE * HEIGHT;
+	const float SCALE = 500;
 
 	const float TIMESTEP = 0.0001f;
 

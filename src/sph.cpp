@@ -1,19 +1,207 @@
-#include "SPHSolver.h"
+#include "my_main.h"
 #include "my_gl.h"
 #include "my_tile.h"
+#include "my_point.h"
 
 #include <iostream>
 #include <cmath>
-
-#include "Constants.h"
-#include "SFML.h"
+#include <vector>
 
 #ifndef M_PI 
 #define M_PI    3.14159265358979323846f 
 #endif
 
+typedef struct {
+public:
+    float left;   ///< Left coordinate of the rectangle
+    float top;    ///< Top coordinate of the rectangle
+    float width;  ///< Width of the rectangle
+    float height; ///< Height of the rectangle
+} FloatRect;
+
 using namespace std;
+class Particle
+{
+public:
+    fpoint position;
+    fpoint velocity;
+    fpoint force;
+
+    float mass;
+    float density;
+    float pressure;
+
+    float color;
+    fpoint normal;
+
+    Particle();
+    Particle(fpoint position);
+
+    float getVelocityLength2() const;
+    float getForceLength2() const;
+    float getNormalLength2() const;
+};
+
+namespace Constants
+{
+    const float WIDTH = 1;
+    const float HEIGHT = 1;
+
+    const float SCALE = 500;
+
+    const int   NUMBER_PARTICLES = 70;
+
+    const float REST_DENSITY = 1000;
+
+    const float STIFFNESS = 10000;
+    const float VISCOCITY = 12000;
+
+    const float GRAVITY = 12000;
+
+    const float PARTICLE_SPACING = 1.0f / NUMBER_PARTICLES;
+    const float PARTICLE_VOLUME = PARTICLE_SPACING * PARTICLE_SPACING;
+    const float PARTICLE_MASS = PARTICLE_VOLUME * REST_DENSITY;
+    const float KERNEL_RANGE = 2 * PARTICLE_SPACING;
+}
 using namespace Constants;
+
+typedef std::vector<int> Cell;
+
+class Grid
+{
+public:
+    Grid();
+
+    void updateStructure(std::vector<Particle> &particles);
+
+    std::vector<Cell> getNeighboringCells(fpoint position);
+
+    int numberCellsX;
+    int numberCellsY;
+
+    std::vector<std::vector<Cell>> cells;
+};
+
+Grid::Grid()
+{
+    numberCellsX = Constants::WIDTH / Constants::KERNEL_RANGE + 1;
+    numberCellsY = Constants::HEIGHT / Constants::KERNEL_RANGE + 1;
+
+    cout << "Grid with " << numberCellsX << " x " << numberCellsY << " cells created." << endl;
+}
+
+vector<Cell> Grid::getNeighboringCells(fpoint position)
+{
+    vector<Cell> resultCells = vector<Cell>();
+
+    int xCell = position.x / Constants::KERNEL_RANGE;
+    int yCell = position.y / Constants::KERNEL_RANGE;
+
+    resultCells.push_back(cells[xCell][yCell]);
+    if (xCell > 0) resultCells.push_back(cells[xCell - 1][yCell]);
+    if (xCell < numberCellsX - 1) resultCells.push_back(cells[xCell + 1][yCell]);
+
+    if (yCell > 0) resultCells.push_back(cells[xCell][yCell - 1]);
+    if (yCell < numberCellsY - 1) resultCells.push_back(cells[xCell][yCell + 1]);
+
+    if (xCell > 0 && yCell > 0) resultCells.push_back(cells[xCell - 1][yCell - 1]);
+    if (xCell > 0 && yCell < numberCellsY - 1) resultCells.push_back(cells[xCell - 1][yCell + 1]);
+    if (xCell < numberCellsX - 1 && yCell > 0) resultCells.push_back(cells[xCell + 1][yCell - 1]);
+    if (xCell < numberCellsX - 1 && yCell < numberCellsY - 1) resultCells.push_back(cells[xCell + 1][yCell + 1]);
+
+    return resultCells;
+}
+
+void Grid::updateStructure(std::vector<Particle> &particles)
+{
+    cells = vector<vector<Cell>>(numberCellsX,
+                                 vector<Cell>(numberCellsY, Cell()));
+
+    for (int i = 0; i < particles.size(); i++)
+    {
+        int xCell = particles[i].position.x / Constants::KERNEL_RANGE;
+        int yCell = particles[i].position.y / Constants::KERNEL_RANGE;
+
+        cells[xCell][yCell].push_back(i);
+    }
+}
+
+Particle::Particle()
+{
+        Particle(fpoint());
+}
+
+Particle::Particle(fpoint pos)
+{
+        position = pos;
+        velocity = fpoint();
+        force = fpoint();
+
+        mass = Constants::PARTICLE_MASS;
+
+        density = 0;
+        pressure = 0;
+
+        color = 0;
+        normal = fpoint();
+}
+
+float Particle::getVelocityLength2() const
+{
+        return velocity.x * velocity.x + velocity.y * velocity.y;
+}
+
+float Particle::getForceLength2() const
+{
+        return force.x * force.x + force.y * force.y;
+}
+
+float Particle::getNormalLength2() const
+{
+        return normal.x * normal.x + normal.y * normal.y;
+}
+enum class Visualization
+{
+        Default,
+        Velocity,
+        Force,
+        Density,
+        Pressure,
+        Water
+};
+
+class SPHSolver
+{
+public:
+        SPHSolver();
+
+        void update(float dt, Visualization vis);
+        void render(Visualization vis);
+
+        void repulsionForce(fpoint position);
+        void attractionForce(fpoint position);
+
+private:
+        int numberParticles;
+        std::vector<Particle> particles;
+        std::vector<std::vector<int>> neighborhoods;
+        Grid grid;
+
+        float kernel(fpoint x, float h);
+        fpoint gradKernel(fpoint x, float h);
+        float laplaceKernel(fpoint x, float h);
+
+        void findNeighborhoods();
+
+        void calculateDensity();
+        void calculatePressure();
+
+        void calculateForceDensity();
+
+        void integrationStep(float dt);
+
+        void collisionHandling();
+};
 
 SPHSolver::SPHSolver()
 {

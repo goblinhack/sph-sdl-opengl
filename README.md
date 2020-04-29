@@ -3,12 +3,11 @@
 / ___||  _ \|  _ \   / ___||  _ \| |       / _ \|  _ \| ____| \ | |/ ___| |
 \___ \| |_) | | | |  \___ \| | | | |      | | | | |_) |  _| |  \| | |  _| |
  ___) |  __/| |_| |   ___) | |_| | |___   | |_| |  __/| |___| |\  | |_| | |___
-|____/|_|   |____/___|____/|____/|_____|___\___/|_|   |_____|_| \_|\____|_____|
-                |_____|               |_____|
+|____/|_|   |____/   |____/|____/|_____|   \___/|_|   |_____|_| \_|\____|_____|
 
 ```
 A simple (unoptimized) 2D implementation of the SPH (Smoothed Particle Hydrodynamics) method for water simulation in C++. Inspired by [this code](https://github.com/tizian/SPH-Water-Simulation)
-Uses SDL + opengl, no shaders.
+Uses SDL + opengl, no shaders. The guts of the simulation is in src/sph.cpp. The rest of the code is fluff for creating the UI and rendering and can be ignored.
 
 ![Alt text](screenshot.1.png?raw=true "")
 ![Alt text](screenshot.2.png?raw=true "")

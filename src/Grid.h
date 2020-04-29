@@ -8,16 +8,15 @@ typedef std::vector<int> Cell;
 class Grid
 {
 public:
-	Grid();
+    Grid();
 
-	void updateStructure(std::vector<Particle> &particles);
+    void updateStructure(std::vector<Particle> &particles);
 
-	std::vector<Cell> getNeighboringCells(fpoint position);
-	
-private:
-	int numberCellsX;
-	int numberCellsY;
+    std::vector<Cell> getNeighboringCells(fpoint position);
 
-	std::vector<std::vector<Cell>> cells;
+    int numberCellsX;
+    int numberCellsY;
+
+    std::vector<std::vector<Cell>> cells;
 };
 

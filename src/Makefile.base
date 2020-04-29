@@ -45,10 +45,7 @@ GAME_OBJECTS=				\
     $(OBJDIR)/wid_popup.o 		\
     $(OBJDIR)/wid_text_box.o 		\
     $(OBJDIR)/wid_tiles.o 		\
-    $(OBJDIR)/SPHSolver.o 		\
-    $(OBJDIR)/Particle.o 		\
-    $(OBJDIR)/Grid.o 			\
-    $(OBJDIR)/Constants.o 		\
+    $(OBJDIR)/sph.o 			\
 
 #
 # compile

@@ -14,6 +14,6 @@ void Game::display (void)
     if (paused) {
         return;
     }
-    sph->update(Constants::TIMESTEP, Visualization::Water);
+    sph->update(0.0001, Visualization::Water);
     sph->render(Visualization::Water);
 }

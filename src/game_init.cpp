@@ -12,6 +12,7 @@ void Game::init (void)
     if (sph) {
         delete sph;
     }
+    game = this;
     sph = new SPHSolver();
     config_select();
 }
