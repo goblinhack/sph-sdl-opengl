@@ -13,7 +13,7 @@ GAME_OBJECTS=				\
     $(OBJDIR)/file_read.o 		\
     $(OBJDIR)/font.o 			\
     $(OBJDIR)/game.o 			\
-    $(OBJDIR)/game_config_keyboard.o	\
+    $(OBJDIR)/game_config.o		\
     $(OBJDIR)/game_display.o 		\
     $(OBJDIR)/game_error.o 		\
     $(OBJDIR)/game_fini.o 		\

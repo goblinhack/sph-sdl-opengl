@@ -4,8 +4,14 @@
 //
 
 #include "my_main.h"
+#include "SPHSolver.h"
+extern SPHSolver *sph;
 
 void Game::init (void)
 {_
-    config_keyboard_select();
+    if (sph) {
+        delete sph;
+    }
+    sph = new SPHSolver();
+    config_select();
 }

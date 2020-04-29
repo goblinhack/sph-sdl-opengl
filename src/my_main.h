@@ -500,9 +500,10 @@ class Game {
 public:
     Game (void) {}
     Game (std::string appdata);
-    void config_keyboard_select(void);
+    void config_select(void);
     void display(void);
     void fini(void);
+    void reset(void);
     void init(void);
     void quit_select(void);
     void help_select(void);
@@ -510,6 +511,7 @@ public:
     std::string        appdata;
     Config             config;
     uint32_t           fps_value = {};
+    bool               paused {};
 };
 
 extern class Game *game;

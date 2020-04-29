@@ -7,10 +7,13 @@
 #include "SPHSolver.h"
 #include "Constants.h"
 
-extern SPHSolver sph;
+extern SPHSolver *sph;
 
 void Game::display (void)
 {_
-    sph.update(Constants::TIMESTEP, Visualization::Water);
-    sph.render(Visualization::Water);
+    if (paused) {
+        return;
+    }
+    sph->update(Constants::TIMESTEP, Visualization::Water);
+    sph->render(Visualization::Water);
 }

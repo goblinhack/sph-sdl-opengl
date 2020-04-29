@@ -9,7 +9,7 @@
 class Game *game;
 bool game_needs_restart;
 
-SPHSolver sph = SPHSolver();
+SPHSolver *sph;
 
 Game::Game (std::string appdata)
 {_

@@ -104,6 +104,8 @@ void quit (void)
 
     if (game) {
         game->fini();
+        delete game;
+        game = nullptr;
     }
 
     LOG("FINI: sdl_exit");
@@ -546,7 +548,6 @@ int32_t main (int32_t argc, char *argv[])
     //
     CON("INIT: Load game config");
     game = new Game(std::string(appdata));
-//    game->init();
 
     if (opt_debug_mode) {
         game->config.debug_mode = opt_debug_mode;
@@ -674,6 +675,8 @@ int32_t main (int32_t argc, char *argv[])
     config_gfx_vsync_update();
 
     MINICON("Running simulation...");
+
+    game->init();
 
     sdl_loop();
 
