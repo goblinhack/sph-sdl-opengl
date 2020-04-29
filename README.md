@@ -12,7 +12,7 @@ A simple (unoptimized) 2D implementation of the 'Smoothed Particle Hydrodynamics
 
 Uses SDL + opengl, no shaders.
 
-Based on [this](https://github.com/tizian/SPH-Water-Simulation)
+Based on [a link](https://github.com/tizian/SPH-Water-Simulation)
 
 ```
 ![Alt text](screenshot.1.png?raw=true "")
