@@ -5,7 +5,6 @@
  ___) |  __/| |_| |   ___) | |_| | |___   | |_| |  __/| |___| |\  | |_| | |___
 |____/|_|   |____/___|____/|____/|_____|___\___/|_|   |_____|_| \_|\____|_____|
                 |_____|               |_____|
-'''
 
 SPH Water Simulation
 
@@ -13,7 +12,7 @@ A simple (unoptimized) 2D implementation of the 'Smoothed Particle Hydrodynamics
 
 Uses SDL + opengl, no shaders.
 
-Based on https://github.com/tizian/SPH-Water-Simulation
+Based on [this](https://github.com/tizian/SPH-Water-Simulation)
 
 ```
 ![Alt text](screenshot.1.png?raw=true "")
