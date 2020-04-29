@@ -38,6 +38,12 @@ uint8_t game_config_reset (Widp w, int32_t x, int32_t y, uint32_t button)
     return (true);
 }
 
+uint8_t game_config_screenshot (Widp w, int32_t x, int32_t y, uint32_t button)
+{_
+    sdl_screenshot();
+    return (true);
+}
+
 uint8_t game_config_resume (Widp w, int32_t x, int32_t y, uint32_t button)
 {_
     MINICON("resumed");
@@ -161,6 +167,21 @@ void Game::config_select (void)
         wid_set_on_mouse_up(w, game_config_reset);
         wid_set_pos(w, tl, br);
         wid_set_text(w, "Reset");
+    }
+    ///////////////////////////////////////////////////////////////////////
+    // help
+    ///////////////////////////////////////////////////////////////////////
+    y_at += 3;
+    {_
+        auto p = game_config_window->wid_text_area->wid_text_area;
+        auto w = wid_new_square_button(p, "Screenshot");
+
+        point tl = {0, y_at};
+        point br = {width - 1, y_at + 2};
+        wid_set_style(w, WID_STYLE_DARK);
+        wid_set_on_mouse_up(w, game_config_screenshot);
+        wid_set_pos(w, tl, br);
+        wid_set_text(w, "Screenshot");
     }
     ///////////////////////////////////////////////////////////////////////
     // help

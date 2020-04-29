@@ -15,7 +15,6 @@ Uses SDL + opengl, no shaders.
 
 Based on https://github.com/tizian/SPH-Water-Simulation
 
-TODO
 ![Alt text](screenshot.1.png?raw=true "")
 ![Alt text](screenshot.2.png?raw=true "")
 ![Alt text](screenshot.3.png?raw=true "")
