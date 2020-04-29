@@ -98,7 +98,7 @@ static void wid_minicon_log_ (std::wstring s)
     wid_minicon_flush();
 
     if (last_msg == s) {
-        s = last_msg + L" (x" + std::to_wstring(++last_msg_count) + L")";
+        s = last_msg; // + L" (x" + std::to_wstring(++last_msg_count) + L")";
     } else {
         last_msg = s;
         last_msg_count = 0;

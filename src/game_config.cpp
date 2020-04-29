@@ -40,6 +40,12 @@ uint8_t game_config_reset (Widp w, int32_t x, int32_t y, uint32_t button)
 
 uint8_t game_config_screenshot (Widp w, int32_t x, int32_t y, uint32_t button)
 {_
+    MINICON(" ");
+    MINICON(" ");
+    MINICON(" ");
+    MINICON(" ");
+    MINICON(" ");
+    MINICON(" ");
     sdl_screenshot();
     return (true);
 }
