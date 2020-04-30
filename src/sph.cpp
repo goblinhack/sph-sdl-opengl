@@ -7,8 +7,10 @@
 #include <cmath>
 #include <vector>
 
-#ifndef M_PI 
-#define M_PI    3.14159265358979323846f 
+using namespace std;
+
+#ifndef M_PI
+#define M_PI    3.14159265358979323846f
 #endif
 
 typedef struct {
@@ -19,7 +21,6 @@ public:
     float height; ///< Height of the rectangle
 } FloatRect;
 
-using namespace std;
 class Particle
 {
 public:
@@ -47,7 +48,7 @@ namespace Constants
     const float WIDTH = 1;
     const float HEIGHT = 1;
 
-    const float SCALE = 500;
+    const float SCALE = 900;
 
     const int   NUMBER_PARTICLES = 70;
 
@@ -122,7 +123,8 @@ void Grid::updateStructure(std::vector<Particle> &particles)
         int xCell = particles[i].position.x / Constants::KERNEL_RANGE;
         int yCell = particles[i].position.y / Constants::KERNEL_RANGE;
 
-        cells[xCell][yCell].push_back(i);
+        auto v = getptr(cells, xCell, yCell);
+        v->push_back(i);
     }
 }
 
@@ -226,7 +228,7 @@ SPHSolver::SPHSolver()
     {
         for (int j = 0; j < NUMBER_PARTICLES; j++)
         {
-            fpoint pos = fpoint(particleRect.left, particleRect.top) + 
+            fpoint pos = fpoint(particleRect.left, particleRect.top) +
                                 fpoint(i * dx, j * dy);
             Particle p = Particle(pos);
             particles.push_back(p);
@@ -405,7 +407,7 @@ void SPHSolver::calculateForceDensity()
         fpoint fGravity = fpoint(0.0f, 0.0f);
 
         vector<int> neighbors = neighborhoods[i];
-        
+
         //particles[i].color = 0;
 
         for (int n = 0; n < neighbors.size(); n++)
@@ -414,9 +416,9 @@ void SPHSolver::calculateForceDensity()
             fpoint x = particles[i].position - particles[j].position;
 
             // Pressure force density
-            fPressure += particles[j].mass * 
+            fPressure += particles[j].mass *
                          (particles[i].pressure + particles[j].pressure) /
-                         (2.0f * particles[j].density) * 
+                         (2.0f * particles[j].density) *
                          gradKernel(x, KERNEL_RANGE);
 
             // Viscosity force density
