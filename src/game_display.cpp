@@ -4,16 +4,12 @@
 //
 
 #include "my_main.h"
-#include "SPHSolver.h"
-#include "Constants.h"
-
-extern SPHSolver *sph;
 
 void Game::display (void)
 {_
     if (paused) {
         return;
     }
-    sph->update(0.0001, Visualization::Water);
-    sph->render(Visualization::Water);
+    extern void sph_display(void);
+    sph_display();
 }

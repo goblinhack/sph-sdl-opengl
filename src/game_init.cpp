@@ -4,15 +4,11 @@
 //
 
 #include "my_main.h"
-#include "SPHSolver.h"
-extern SPHSolver *sph;
 
 void Game::init (void)
 {_
-    if (sph) {
-        delete sph;
-    }
     game = this;
-    sph = new SPHSolver();
+    extern void sph_init(void);
+    sph_init();
     config_select();
 }

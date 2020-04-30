@@ -3,6 +3,7 @@
 #include "my_tile.h"
 #include "my_point.h"
 
+#include <algorithm>
 #include <iostream>
 #include <cmath>
 #include <vector>
@@ -15,10 +16,10 @@ using namespace std;
 
 typedef struct {
 public:
-    float left;   ///< Left coordinate of the rectangle
-    float top;    ///< Top coordinate of the rectangle
-    float width;  ///< Width of the rectangle
-    float height; ///< Height of the rectangle
+    double left;   ///< Left coordinate of the rectangle
+    double top;    ///< Top coordinate of the rectangle
+    double width;  ///< Width of the rectangle
+    double height; ///< Height of the rectangle
 } FloatRect;
 
 class Particle
@@ -28,41 +29,41 @@ public:
     fpoint velocity;
     fpoint force;
 
-    float mass;
-    float density;
-    float pressure;
+    double mass;
+    double density;
+    double pressure;
 
-    float color;
+    double color;
     fpoint normal;
 
     Particle();
     Particle(fpoint position);
 
-    float getVelocityLength2() const;
-    float getForceLength2() const;
-    float getNormalLength2() const;
+    double getVelocityLength2() const;
+    double getForceLength2() const;
+    double getNormalLength2() const;
 };
 
 namespace Constants
 {
-    const float WIDTH = 1;
-    const float HEIGHT = 1;
+    const double GL_WIDTH = 1340;
+    const double GL_HEIGHT = 800;
 
-    const float SCALE = 900;
+    const double SCALE = 1;
 
-    const int   NUMBER_PARTICLES = 70;
+    const int   NUMBER_PARTICLES = 90;
 
-    const float REST_DENSITY = 1000;
+    const double REST_DENSITY = 10000; // higher more "frothy"
 
-    const float STIFFNESS = 10000;
-    const float VISCOCITY = 12000;
+    const double STIFFNESS = 18000 * 80000; // higher more gas like
+    const double VISCOCITY = 18000 * 80000;
 
-    const float GRAVITY = 12000;
+    const double GRAVITY = 150 * 200000;
 
-    const float PARTICLE_SPACING = 1.0f / NUMBER_PARTICLES;
-    const float PARTICLE_VOLUME = PARTICLE_SPACING * PARTICLE_SPACING;
-    const float PARTICLE_MASS = PARTICLE_VOLUME * REST_DENSITY;
-    const float KERNEL_RANGE = 2 * PARTICLE_SPACING;
+    const double PARTICLE_SPACING = 1000.0f / NUMBER_PARTICLES;
+    const double PARTICLE_VOLUME = 20 * PARTICLE_SPACING * PARTICLE_SPACING;
+    const double PARTICLE_MASS = PARTICLE_VOLUME * REST_DENSITY;
+    const double KERNEL_RANGE = 2 * PARTICLE_SPACING;
 }
 using namespace Constants;
 
@@ -85,10 +86,8 @@ public:
 
 Grid::Grid()
 {
-    numberCellsX = Constants::WIDTH / Constants::KERNEL_RANGE + 1;
-    numberCellsY = Constants::HEIGHT / Constants::KERNEL_RANGE + 1;
-
-    cout << "Grid with " << numberCellsX << " x " << numberCellsY << " cells created." << endl;
+    numberCellsX = Constants::GL_WIDTH / Constants::KERNEL_RANGE + 1;
+    numberCellsY = Constants::GL_HEIGHT / Constants::KERNEL_RANGE + 1;
 }
 
 vector<Cell> Grid::getNeighboringCells(fpoint position)
@@ -148,17 +147,17 @@ Particle::Particle(fpoint pos)
         normal = fpoint();
 }
 
-float Particle::getVelocityLength2() const
+double Particle::getVelocityLength2() const
 {
         return velocity.x * velocity.x + velocity.y * velocity.y;
 }
 
-float Particle::getForceLength2() const
+double Particle::getForceLength2() const
 {
         return force.x * force.x + force.y * force.y;
 }
 
-float Particle::getNormalLength2() const
+double Particle::getNormalLength2() const
 {
         return normal.x * normal.x + normal.y * normal.y;
 }
@@ -177,7 +176,7 @@ class SPHSolver
 public:
         SPHSolver();
 
-        void update(float dt, Visualization vis);
+        void update(double dt, Visualization vis);
         void render(Visualization vis);
 
         void repulsionForce(fpoint position);
@@ -189,9 +188,9 @@ private:
         std::vector<std::vector<int>> neighborhoods;
         Grid grid;
 
-        float kernel(fpoint x, float h);
-        fpoint gradKernel(fpoint x, float h);
-        float laplaceKernel(fpoint x, float h);
+        double kernel(fpoint x, double h);
+        fpoint gradKernel(fpoint x, double h);
+        double laplaceKernel(fpoint x, double h);
 
         void findNeighborhoods();
 
@@ -200,10 +199,12 @@ private:
 
         void calculateForceDensity();
 
-        void integrationStep(float dt);
+        void integrationStep(double dt);
 
         void collisionHandling();
 };
+
+static SPHSolver *sph;
 
 SPHSolver::SPHSolver()
 {
@@ -213,16 +214,16 @@ SPHSolver::SPHSolver()
     numberParticles = particlesX * particlesY;
     particles = vector<Particle>();
 
-    float width = WIDTH / 4.2f;
-    float height = 3.0f * HEIGHT / 4.0f;
+    double width = GL_WIDTH / 4.2f;
+    double height = 3.0f * GL_HEIGHT / 4.0f;
 
-    FloatRect particleRect = { (WIDTH - width) / 2,
-                               HEIGHT - height,
+    FloatRect particleRect = { (GL_WIDTH - width) / 2,
+                               GL_HEIGHT - height,
                                width, height
                              };
 
-    float dx = particleRect.width / particlesX;
-    float dy = particleRect.height / particlesY;
+    double dx = particleRect.width / particlesX;
+    double dy = particleRect.height / particlesY;
 
     for (int i = 0; i < NUMBER_PARTICLES / 2.0f; i++)
     {
@@ -234,6 +235,9 @@ SPHSolver::SPHSolver()
             particles.push_back(p);
         }
     }
+
+    MINICON("Grid with %d x %d, %zd particles",
+            grid.numberCellsX, grid.numberCellsY, particles.size());
 
     grid.updateStructure(particles);
 }
@@ -277,7 +281,7 @@ void SPHSolver::repulsionForce(fpoint position)
     {
         fpoint x = particles[i].position - position;
 
-        float dist2 = x.x * x.x + x.y * x.y;
+        double dist2 = x.x * x.x + x.y * x.y;
 
         if (dist2 < KERNEL_RANGE * 3)
         {
@@ -292,7 +296,7 @@ void SPHSolver::attractionForce(fpoint position)
     {
         fpoint x = position - particles[i].position;
 
-        float dist2 = x.x * x.x + x.y * x.y;
+        double dist2 = x.x * x.x + x.y * x.y;
 
         if (dist2 < KERNEL_RANGE * 3)
         {
@@ -301,7 +305,7 @@ void SPHSolver::attractionForce(fpoint position)
     }
 }
 
-void SPHSolver::update(float dt, Visualization vis)
+void SPHSolver::update(double dt, Visualization vis)
 {
     findNeighborhoods();
     calculateDensity();
@@ -314,10 +318,10 @@ void SPHSolver::update(float dt, Visualization vis)
 }
 
 // Poly6 Kernel
-float SPHSolver::kernel(fpoint x, float h)
+double SPHSolver::kernel(fpoint x, double h)
 {
-    float r2 = x.x * x.x + x.y * x.y;
-    float h2 = h * h;
+    double r2 = x.x * x.x + x.y * x.y;
+    double h2 = h * h;
 
     if (r2 < 0 || r2 > h2) return 0.0f;
 
@@ -325,30 +329,30 @@ float SPHSolver::kernel(fpoint x, float h)
 }
 
 // Gradient of Spiky Kernel
-fpoint SPHSolver::gradKernel(fpoint x, float h)
+fpoint SPHSolver::gradKernel(fpoint x, double h)
 {
-    float r = sqrt(x.x * x.x + x.y * x.y);
+    double r = sqrt(x.x * x.x + x.y * x.y);
     if (r == 0.0f) return fpoint(0.0f, 0.0f);
 
-    float t1 = -45.0f / (M_PI * pow(h, 6));
+    double t1 = -45.0f / (M_PI * pow(h, 6));
     fpoint t2 = x / r;
-    float t3 = pow(h - r, 2);
+    double t3 = pow(h - r, 2);
 
 
     return t2 * t1 * t3;
 }
 
 // Laplacian of Viscosity Kernel
-float SPHSolver::laplaceKernel(fpoint x, float h)
+double SPHSolver::laplaceKernel(fpoint x, double h)
 {
-    float r = sqrt(x.x * x.x + x.y * x.y);
+    double r = sqrt(x.x * x.x + x.y * x.y);
     return 45.0f / (M_PI * pow(h, 6)) * (h - r);
 }
 
 void SPHSolver::findNeighborhoods()
 {
     neighborhoods = vector<vector<int>>();
-    float maxDist2 = KERNEL_RANGE * KERNEL_RANGE;
+    double maxDist2 = KERNEL_RANGE * KERNEL_RANGE;
 
     for (const Particle &p : particles)
     {
@@ -360,7 +364,7 @@ void SPHSolver::findNeighborhoods()
             for (int index : cell)
             {
                 fpoint x = p.position - particles[index].position;
-                float dist2 = x.x * x.x + x.y * x.y;
+                double dist2 = x.x * x.x + x.y * x.y;
                 if (dist2 <= maxDist2) {
                     neighbors.push_back(index);
                 }
@@ -376,7 +380,7 @@ void SPHSolver::calculateDensity()
     for (int i = 0; i < numberParticles; i++)
     {
         vector<int> neighbors = neighborhoods[i];
-        float densitySum = 0.0f;
+        double densitySum = 0.0f;
 
         for (int n = 0; n < neighbors.size(); n++)
         {
@@ -394,7 +398,8 @@ void SPHSolver::calculatePressure()
 {
     for (int i = 0; i < numberParticles; i++)
     {
-        particles[i].pressure = max(STIFFNESS * (particles[i].density - REST_DENSITY), 0.0f);
+        particles[i].pressure =
+            std::max(STIFFNESS * (particles[i].density - REST_DENSITY), 0.0);
     }
 }
 
@@ -439,7 +444,7 @@ void SPHSolver::calculateForceDensity()
     }
 }
 
-void SPHSolver::integrationStep(float dt)
+void SPHSolver::integrationStep(double dt)
 {
     for (int i = 0; i < numberParticles; i++)
     {
@@ -457,9 +462,9 @@ void SPHSolver::collisionHandling()
             particles[i].position.x = 0.0f;
             particles[i].velocity.x = -0.5f * particles[i].velocity.x;
         }
-        else if (particles[i].position.x > WIDTH)
+        else if (particles[i].position.x > GL_WIDTH)
         {
-            particles[i].position.x = WIDTH;
+            particles[i].position.x = GL_WIDTH;
             particles[i].velocity.x = -0.5f * particles[i].velocity.x;
         }
 
@@ -468,10 +473,27 @@ void SPHSolver::collisionHandling()
             particles[i].position.y = 0.0f;
             particles[i].velocity.y = -0.5f * particles[i].velocity.y;
         }
-        else if (particles[i].position.y > HEIGHT)
+        else if (particles[i].position.y > GL_HEIGHT)
         {
-            particles[i].position.y = HEIGHT;
+            particles[i].position.y = GL_HEIGHT;
             particles[i].velocity.y = -0.5f * particles[i].velocity.y;
         }
     }
+}
+
+void sph_display (void)
+{
+    if (!sph) {
+        DIE("no sph");
+    }
+    sph->update(0.0001, Visualization::Water);
+    sph->render(Visualization::Water);
+}
+
+void sph_init (void)
+{
+    if (sph) {
+        delete sph;
+    }
+    sph = new SPHSolver();
 }

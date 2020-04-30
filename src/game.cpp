@@ -4,12 +4,9 @@
 //
 
 #include "my_main.h"
-#include "SPHSolver.h"
 
 class Game *game;
 bool game_needs_restart;
-
-SPHSolver *sph;
 
 Game::Game (std::string appdata)
 {_
