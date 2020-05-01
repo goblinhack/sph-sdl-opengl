@@ -31,6 +31,18 @@ uint8_t game_config_pause (Widp w, int32_t x, int32_t y, uint32_t button)
     return (true);
 }
 
+uint8_t game_config_vsync (Widp w, int32_t x, int32_t y, uint32_t button)
+{_
+    game->config.gfx_vsync_enable = !game->config.gfx_vsync_enable;
+    if (game->config.gfx_vsync_enable) {
+        MINICON("vsync enabled");
+    } else {
+        MINICON("vsync disabled");
+    }
+    game->config_select();
+    return (true);
+}
+
 uint8_t game_config_reset (Widp w, int32_t x, int32_t y, uint32_t button)
 {_
     game->init();
@@ -121,7 +133,7 @@ void Game::config_select (void)
         game_config_destroy();
     }
 
-    auto width = 12;
+    auto width = 14;
     auto height = 20;
     point tl = {ASCII_WIDTH - width - 2, MINICON_VIS_HEIGHT - 1 };
     point br = {ASCII_WIDTH - 1, MINICON_VIS_HEIGHT + height - 1};
@@ -136,6 +148,9 @@ void Game::config_select (void)
 
     int y_at = 0;
 
+    ///////////////////////////////////////////////////////////////////////
+    // pause
+    ///////////////////////////////////////////////////////////////////////
     y_at = 0;
     if (paused) {_
         auto p = game_config_window->wid_text_area->wid_text_area;
@@ -157,6 +172,32 @@ void Game::config_select (void)
         wid_set_on_mouse_up(w, game_config_pause);
         wid_set_pos(w, tl, br);
         wid_set_text(w, "Pause");
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    // vsync
+    ///////////////////////////////////////////////////////////////////////
+    y_at += 3;
+    if (config.gfx_vsync_enable) {_
+        auto p = game_config_window->wid_text_area->wid_text_area;
+        auto w = wid_new_square_button(p, "Disable Vsync");
+
+        point tl = {0, y_at};
+        point br = {width - 1, y_at + 2};
+        wid_set_style(w, WID_STYLE_DARK);
+        wid_set_on_mouse_up(w, game_config_vsync);
+        wid_set_pos(w, tl, br);
+        wid_set_text(w, "Disable Vsync");
+    } else {
+        auto p = game_config_window->wid_text_area->wid_text_area;
+        auto w = wid_new_square_button(p, "Enable Vsync");
+
+        point tl = {0, y_at};
+        point br = {width - 1, y_at + 2};
+        wid_set_style(w, WID_STYLE_DARK);
+        wid_set_on_mouse_up(w, game_config_vsync);
+        wid_set_pos(w, tl, br);
+        wid_set_text(w, "Enable Vsync");
     }
 
     ///////////////////////////////////////////////////////////////////////
