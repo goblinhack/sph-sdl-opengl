@@ -3,6 +3,7 @@
 // See the README file for license info.
 //
 
+#pragma once
 #ifndef _MY_MAIN_H_
 #define _MY_MAIN_H_
 
@@ -123,18 +124,6 @@ extern int TILES_DOWN;
 //
 #define ASCII_WIDTH_MAX  80
 #define ASCII_HEIGHT_MAX ASCII_WIDTH_MAX
-
-////////////////////////////////////////////////////////////////////////////
-// Particles
-////////////////////////////////////////////////////////////////////////////
-//
-// Particle size in pixels
-//
-#define PARTICLE_SLOTS   100
-#define PARTICLE_RADIUS  8
-#define PARTICLE_MAX     200
-#define PARTICLES_WIDTH  (MAP_WIDTH * (TILE_WIDTH / PARTICLE_RADIUS))
-#define PARTICLES_HEIGHT (MAP_HEIGHT * (TILE_HEIGHT / PARTICLE_RADIUS))
 
 ////////////////////////////////////////////////////////////////////////////
 // UI button styles
@@ -495,28 +484,5 @@ public:
     void dump(std::string prefix, std::ostream &out);
     void log(std::string prefix);
 } Config;
-
-class Game {
-public:
-    Game (void) {}
-    Game (std::string appdata);
-    void config_select(void);
-    void display(void);
-    void fini(void);
-    void reset(void);
-    void init(void);
-    void quit_select(void);
-    void help_select(void);
-
-    std::string        appdata;
-    Config             config;
-    uint32_t           fps_value = {};
-    bool               paused {};
-};
-
-extern class Game *game;
-
-extern uint8_t game_mouse_down(int32_t x, int32_t y, uint32_t button);
-extern uint8_t game_mouse_up(int32_t x, int32_t y, uint32_t button);
 
 #endif

@@ -3,6 +3,7 @@
 // See the README file for license info.
 //
 
+#include "my_game.h"
 #include "my_tile.h"
 
 static void gl_init_fbo(void);

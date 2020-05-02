@@ -3,7 +3,7 @@
 // See the README file for license info.
 //
 
-#include "my_main.h"
+#include "my_game.h"
 
 class Game *game;
 bool game_needs_restart;

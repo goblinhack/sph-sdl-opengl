@@ -43,6 +43,7 @@ GAME_OBJECTS=				\
     $(OBJDIR)/wid_console.o 		\
     $(OBJDIR)/wid_minicon.o 		\
     $(OBJDIR)/wid_popup.o 		\
+    $(OBJDIR)/particle.o 		\
     $(OBJDIR)/wid_text_box.o 		\
     $(OBJDIR)/wid_tiles.o 		\
     $(OBJDIR)/sph.o 			\

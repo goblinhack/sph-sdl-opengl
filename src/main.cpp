@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
+#include "my_game.h"
 #include "my_gl.h"
 #include "my_wid_console.h"
 #include "my_wid_minicon.h"
